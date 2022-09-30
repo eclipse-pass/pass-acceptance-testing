@@ -253,9 +253,4 @@ test('can walk through an nih submission workflow and make a submission - base c
     const submittedFile = Selector('a').withExactText('my-submission.pdf');
     await t.expect(submittedFile.exists).ok();
 
-    //<span tooltip-position="left" tooltip="The submission was successfully created. PASS will deposit this work into the target repositories and provide a link and feedback where available">
-
 });
-
-
-// .ember-view.btn-link href="app/submissions"
