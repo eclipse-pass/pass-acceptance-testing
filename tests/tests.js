@@ -235,10 +235,6 @@ test('can walk through an nih submission workflow and make a submission - base c
     // Repository statuses
     const submissionRepositoryJScholarship = Selector('a').withExactText('JScholarship');
     await t.expect(submissionRepositoryJScholarship.exists).ok();
-    // TOOD: work out how to properly do this sort of selector parent-sibling tracing/chaining
-    //const submissionRepositoryJScholarshipStatus = Selector(submissionRepositoryJScholarship)().parent(0).sibling(0).child('div').child('div').child('span')
-    //    .withAttribute('tooltip','Your submission has been sent to the repository or is in queue to be sent.');
-    //await t.expect(submissionRepositoryJScholarshipStatus.exists).ok();
 
     const submissionRepositoryPubMedCentral = Selector('a').withExactText('PubMed Central');
     await t.expect(submissionRepositoryPubMedCentral.exists).ok();
