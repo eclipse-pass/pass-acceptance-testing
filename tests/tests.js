@@ -2,26 +2,26 @@ import { Selector, Role, ClientFunction } from 'testcafe';
 
 const userNih = Role('https://pass.local', async t =>{
     await t
-        .doubleClick('#login-button')
+        .click('#login-button')
         .typeText(Selector('#username'), 'nih-user')
         .typeText(Selector('#password'), 'moo')
-        .doubleClick(Selector(".form-element.form-button"));
+        .click(Selector(".form-element.form-button"));
 });
 
 const userIncompleteNih = Role('https://pass.local', async t =>{
     await t
-        .doubleClick('#login-button')
+        .click('#login-button')
         .typeText(Selector('#username'), 'incomplete-nih-user')
         .typeText(Selector('#password'), 'moo')
-        .doubleClick(Selector(".form-element.form-button"));
+        .click(Selector(".form-element.form-button"));
 });
 
 const userStaff1 = Role('https://pass.local', async t =>{
     await t
-        .doubleClick('#login-button')
+        .click('#login-button')
         .typeText(Selector('#username'), 'staff1')
         .typeText(Selector('#password'), 'moo')
-        .doubleClick(Selector(".form-element.form-button"));
+        .click(Selector(".form-element.form-button"));
 });
 
 const userAdminSubmitter = Role('https://pass.local', async t =>{
@@ -31,6 +31,8 @@ const userAdminSubmitter = Role('https://pass.local', async t =>{
         .typeText(Selector('#password'), 'moo')
         .click(Selector(".form-element.form-button"));
 });
+
+const currLocation = ClientFunction((() => window.location.href));
 
 fixture `Acceptance Testing`
     .page`https://pass.local`;
@@ -44,7 +46,6 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(submissionsButton.exists).ok();
     await t.click(submissionsButton);
 
-    var currLocation = ClientFunction(() => window.location.href);
     await t.expect(currLocation()).eql('https://pass.local/app/submissions');
 
     // Start new Submission
@@ -52,7 +53,6 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(startNewSubmissionButton.exists).ok();
     await t.click(startNewSubmissionButton);
 
-    currLocation = ClientFunction(() => window.location.href);
     await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/basics');
 
     // Input DOI
@@ -84,15 +84,14 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(goToGrantsButton.exists).ok();
     await t.click(goToGrantsButton);
 
-    currLocation = ClientFunction(() => window.location.href);
     await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/grants');
 
     // Select a Grant
     const nihGrant = Selector('#grants-selection-table')
-        .child('table').child('tbody').child('tr').child('td').withExactText('Eye research (07/01/2017 - 06/30/2022)');
-    await t.expect(nihGrant.innerText).eql('Eye research (07/01/2017 - 06/30/2022)');
+        .child('table').child('tbody').child('tr').child('td').withText('Eye research');
+    await t.expect(nihGrant.exists).ok();
 
-    await t.doubleClick(nihGrant);
+    await t.click(nihGrant);
     const submittedGrant = Selector('table').withAttribute('data-test-submission-funding-table')
         .child('tbody').child('tr').child('td').withExactText('Eye research (07/01/2017 - 06/30/2022)');
     await t.expect(submittedGrant.exists).ok();
@@ -102,7 +101,6 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(goToPoliciesButton.exists).ok();
     await t.click(goToPoliciesButton);
 
-    currLocation = ClientFunction(() => window.location.href);
     await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/policies');
 
     // Check selected Policy
@@ -114,7 +112,6 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(goToRepositoriesButton.exists).ok();
     await t.click(goToRepositoriesButton);
 
-    currLocation = ClientFunction(() => window.location.href);
     await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/repositories');
 
     // Check Required Repositories
@@ -133,7 +130,6 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(goToMetadataButton.exists).ok();
     await t.click(goToMetadataButton);
 
-    currLocation = ClientFunction(() => window.location.href);
     await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/metadata');
 
     // Check Article Title
@@ -151,7 +147,6 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(goToFilesButton.exists).ok();
     await t.click(goToFilesButton);
 
-    currLocation = ClientFunction(() => window.location.href);
     await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/files');
 
     // Get Browse Files button
@@ -168,7 +163,6 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(goToReviewButton.exists).ok();
     await t.click(goToReviewButton);
 
-    currLocation = ClientFunction(() => window.location.href);
     await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/review');
 
     // Review Title
@@ -235,11 +229,11 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(submissionStatus.exists).ok();
 
     // Grant status
-    const submissionGrants = Selector('ul').child('li').withText('Eye research');
+    const submissionGrants = Selector('#grants-selection-table td').withText('Eye research');
     await t.expect(submissionGrants.exists).ok();
 
     // Repository statuses
-    const submissionRepositoryJScholarship = Selector('a').withExactText('JScholarship');
+    const submissionRepositoryJScholarship = Selector('#grants-selection-table td').withExactText('JScholarship');
     await t.expect(submissionRepositoryJScholarship.exists).ok();
     // TOOD: work out how to properly do this sort of selector parent-sibling tracing/chaining
     //const submissionRepositoryJScholarshipStatus = Selector(submissionRepositoryJScholarship)().parent(0).sibling(0).child('div').child('div').child('span')
