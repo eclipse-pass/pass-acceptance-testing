@@ -87,8 +87,7 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/grants');
 
     // Select a Grant
-    const nihGrant = Selector('#grants-selection-table')
-        .child('table').child('tbody').child('tr').child('td').withText('Eye research');
+    const nihGrant = Selector('#grants-selection-table td').withText('Eye research');
     await t.expect(nihGrant.exists).ok();
 
     await t.click(nihGrant);
