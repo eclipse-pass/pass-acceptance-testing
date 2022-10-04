@@ -59,7 +59,7 @@ test('can walk through an nih submission workflow and make a submission - base c
     const doiInput = Selector('#doi');
     await t.expect(doiInput().exists).ok();
     await t.typeText(doiInput, '10.1039/c7an01256j', { paste: true });
-    const toastMessage = Selector('.toast-message').withText("We've pre-populated information from the DOI provided!");
+    const toastMessage = Selector('.toast-message', {timeout: 15000}).withText("We've pre-populated information from the DOI provided!");
     await t.expect(toastMessage.exists).ok();
 
 
@@ -229,11 +229,11 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(submissionStatus.exists).ok();
 
     // Grant status
-    const submissionGrants = Selector('#grants-selection-table td').withText('Eye research');
+    const submissionGrants = Selector('li').withText('Eye research');
     await t.expect(submissionGrants.exists).ok();
 
     // Repository statuses
-    const submissionRepositoryJScholarship = Selector('#grants-selection-table td').withExactText('JScholarship');
+    const submissionRepositoryJScholarship = Selector('a').withExactText('JScholarship');
     await t.expect(submissionRepositoryJScholarship.exists).ok();
     // TOOD: work out how to properly do this sort of selector parent-sibling tracing/chaining
     //const submissionRepositoryJScholarshipStatus = Selector(submissionRepositoryJScholarship)().parent(0).sibling(0).child('div').child('div').child('span')
@@ -247,4 +247,8 @@ test('can walk through an nih submission workflow and make a submission - base c
     const submittedFile = Selector('a').withExactText('my-submission.pdf');
     await t.expect(submittedFile.exists).ok();
 
-});
+}).timeouts({
+    pageLoadTimeout:    60000,
+    pageRequestTimeout: 60000,
+    ajaxRequestTimeout: 60000,
+});;
