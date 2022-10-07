@@ -211,7 +211,7 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(linkToSubmission.exists).ok();
     await t.click(linkToSubmission);
 
-    const submissionDetailsBody = Selector('h2').withExactText('Submission Detail');
+    const submissionDetailsBody = Selector('h2', {timeout: 15000}).withExactText('Submission Detail');
     await t.expect(submissionDetailsBody.exists).ok();
 
     // Submission heading
