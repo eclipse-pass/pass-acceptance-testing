@@ -87,12 +87,12 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/grants');
 
     // Select a Grant
-    const nihGrant = Selector('#grants-selection-table td').withText('Eye research');
+    const nihGrant = Selector('#grants-selection-table a').withText('QQDV123P7');
     await t.expect(nihGrant.exists).ok();
 
-    await t.click(nihGrant);
+    await t.click(nihGrant().parent(0));
     const submittedGrant = Selector('table').withAttribute('data-test-submission-funding-table')
-        .child('tbody').child('tr').child('td').withExactText('Eye research (07/01/2017 - 06/30/2022)');
+        .child('tbody').child('tr').child('td').child('a').withText('QQDV123P7');
     await t.expect(submittedGrant.exists).ok();
 
     // Go to Policies
@@ -174,8 +174,8 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(reviewDoi.innerText).eql('10.1039/c7an01256j');
     
     // Review Grant List
-    const reviewGrants = Selector('ul').withAttribute('data-test-workflow-review-grant-list').child('li').withText('Eye research');
-    await t.expect(reviewGrants.innerText).contains('Eye research');
+    const reviewGrants = Selector('ul').withAttribute('data-test-workflow-review-grant-list').child('li').withText('QQDV123P7');
+    await t.expect(reviewGrants.innerText).contains('QQDV123P7');
 
     // Review Uploaded File
     const reviewFile = Selector('td').withAttribute('data-test-workflow-review-file-name').withExactText('my-submission.pdf');
@@ -228,7 +228,7 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(submissionStatus.exists).ok();
 
     // Grant status
-    const submissionGrants = Selector('li').withText('Eye research');
+    const submissionGrants = Selector('li').withText('QQDV123P7');
     await t.expect(submissionGrants.exists).ok();
 
     // Repository statuses
