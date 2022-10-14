@@ -4,7 +4,7 @@ const commonTest = require("./commonTest");
 fixture `Acceptance Testing`
     .page`https://pass.local`;
 
-test( 'Test prepping proxy submission', async t => {
+test( 'can walk through a proxy submission workflow and make a submission - with pass account', async t => {
 
     // use role
     await t.useRole(commonTest.userNih);
@@ -57,7 +57,52 @@ test( 'Test prepping proxy submission', async t => {
     pageLoadTimeout:    60000,
     pageRequestTimeout: 60000,
     ajaxRequestTimeout: 60000,
-});;;
+}).disablePageCaching;
+
+test('can walk through a proxy submission workflow and make a submission - without pass account', async t => {
+
+    // use role
+    await t.useRole(commonTest.userNih);
+
+    // Go to Submissions
+    const submissionsButton = Selector('.nav-link.ember-view', {timeout: 15000}).withExactText('Submissions');
+    await t.expect(submissionsButton.exists).ok();
+    await t.click(submissionsButton);
+
+    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions');
+
+    // Start new Submission
+    const startNewSubmissionButton = Selector('.ember-view.btn.btn-primary.btn-small.pull-right').withAttribute('href', '/app/submissions/new');
+    await t.expect(startNewSubmissionButton.exists).ok();
+    await t.click(startNewSubmissionButton);
+
+    // Select Proxy Submission button
+    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions/new/basics');
+    const proxyRadioButton = Selector('input').withAttribute('data-test-proxy-radio-button');
+    await t.expect(proxyRadioButton.exists).ok();
+    await t.click(proxyRadioButton);
+
+    const proxyInputBlock = Selector('#proxy-input-block');
+    await t.expect(proxyInputBlock.exists).ok();
+
+    // Input name and email of submitter
+    const submitterEmailInput = Selector('input').withAttribute('data-test-proxy-submitter-email-input');
+    await t.expect(submitterEmailInput.exists).ok();
+    await t.typeText(submitterEmailInput, 'nopass@account.com');
+    await t.expect(submitterEmailInput.value).eql('nopass@account.com');
+
+    const submitterNameInput = Selector('input').withAttribute('data-test-proxy-submitter-name-input');
+    await t.expect(submitterNameInput.exists).ok();
+    await t.typeText(submitterNameInput, 'John Moo');
+    await t.expect(submitterNameInput.value).eql('John Moo');
+
+    await walkThroughSubmissionFlow(t, false);
+
+}).timeouts({
+    pageLoadTimeout:    60000,
+    pageRequestTimeout: 60000,
+    ajaxRequestTimeout: 60000,
+}).disablePageCaching;
 
 // t should be the test's promise, hasAccount should be a Bool
 async function walkThroughSubmissionFlow(t, hasAccount){
@@ -102,7 +147,11 @@ async function walkThroughSubmissionFlow(t, hasAccount){
             .child('tbody').child('tr').child('td').child('a').withText('R124');
         await t.expect(submittedGrant.exists).ok();
     }
-    // TODO: add case for no account
+    else{
+        // Check that the No Account message is appearing
+        const hasNoGrantsMessage = Selector('p').withAttribute('data-test-workflow-grants-no-account-message');
+        await t.expect(hasNoGrantsMessage.innerText).eql("Because the person you are submitting on behalf of is not yet in our system, PASS does not have information about his/her grant(s) and cannot associate this submission with a grant. Please click Next to continue.");
+    }
 
     // Go to Policies
     const goToPoliciesButton = Selector('button').withAttribute('data-test-workflow-grants-next');
@@ -183,7 +232,7 @@ async function walkThroughSubmissionFlow(t, hasAccount){
         await t.expect(submitterComment.innerText).contains('Staff Hasgrants');
     }
     else{
-        await t.expect(submitterComment.innerText).contains('Staff Hasnogrants');
+        await t.expect(submitterComment.innerText).contains('John Moo');
     }
 
     // Submit
