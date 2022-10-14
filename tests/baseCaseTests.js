@@ -1,59 +1,26 @@
-import { Selector, Role, ClientFunction } from 'testcafe';
-
-const userNih = Role('https://pass.local', async t =>{
-    await t
-        .click('#login-button')
-        .typeText(Selector('#username'), 'nih-user')
-        .typeText(Selector('#password'), 'moo')
-        .click(Selector(".form-element.form-button"));
-});
-
-const userIncompleteNih = Role('https://pass.local', async t =>{
-    await t
-        .click('#login-button')
-        .typeText(Selector('#username'), 'incomplete-nih-user')
-        .typeText(Selector('#password'), 'moo')
-        .click(Selector(".form-element.form-button"));
-});
-
-const userStaff1 = Role('https://pass.local', async t =>{
-    await t
-        .click('#login-button')
-        .typeText(Selector('#username'), 'staff1')
-        .typeText(Selector('#password'), 'moo')
-        .click(Selector(".form-element.form-button"));
-});
-
-const userAdminSubmitter = Role('https://pass.local', async t =>{
-    await t
-        .click('#login-button')
-        .typeText(Selector('#username'), 'admin-submitter')
-        .typeText(Selector('#password'), 'moo')
-        .click(Selector(".form-element.form-button"));
-});
-
-const currLocation = ClientFunction((() => window.location.href));
+import { Selector } from 'testcafe';
+const commonTest = require("./commonTest");
 
 fixture `Acceptance Testing`
     .page`https://pass.local`;
 
 test('can walk through an nih submission workflow and make a submission - base case', async t => {
     // Log in
-    await t.useRole(userNih);
+    await t.useRole(commonTest.userNih);
 
     // Go to Submissions
     const submissionsButton = Selector('.nav-link.ember-view').withExactText('Submissions');
     await t.expect(submissionsButton.exists).ok();
     await t.click(submissionsButton);
 
-    await t.expect(currLocation()).eql('https://pass.local/app/submissions');
+    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions');
 
     // Start new Submission
     const startNewSubmissionButton = Selector('.ember-view.btn.btn-primary.btn-small.pull-right').withAttribute('href', '/app/submissions/new');
     await t.expect(startNewSubmissionButton.exists).ok();
     await t.click(startNewSubmissionButton);
 
-    await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/basics');
+    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions/new/basics');
 
     // Input DOI
     const doiInput = Selector('#doi');
@@ -84,7 +51,7 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(goToGrantsButton.exists).ok();
     await t.click(goToGrantsButton);
 
-    await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/grants');
+    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions/new/grants');
 
     // Select a Grant
     const nihGrant = Selector('#grants-selection-table a').withText('QQDV123P7');
@@ -100,7 +67,7 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(goToPoliciesButton.exists).ok();
     await t.click(goToPoliciesButton);
 
-    await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/policies');
+    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions/new/policies');
 
     // Check selected Policy
     const currPolicy = Selector('input').withAttribute('data-test-workflow-policies-radio-no-direct-deposit');
@@ -111,7 +78,7 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(goToRepositoriesButton.exists).ok();
     await t.click(goToRepositoriesButton);
 
-    await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/repositories');
+    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions/new/repositories');
 
     // Check Required Repositories
     const requiredRepositories = Selector('ul')
@@ -129,7 +96,7 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(goToMetadataButton.exists).ok();
     await t.click(goToMetadataButton);
 
-    await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/metadata');
+    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions/new/metadata');
 
     // Check Article Title
     const articleTitle = Selector('textarea').withAttribute('name', 'title');
@@ -146,7 +113,7 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(goToFilesButton.exists).ok();
     await t.click(goToFilesButton);
 
-    await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/files');
+    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions/new/files');
 
     // Get Browse Files button
     const browseFilesButton = Selector('#file-multiple-input');
@@ -162,7 +129,7 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(goToReviewButton.exists).ok();
     await t.click(goToReviewButton);
 
-    await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/review');
+    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions/new/review');
 
     // Review Title
     const reviewTitle = Selector('.mb-1').withAttribute('data-test-workflow-review-title');
@@ -211,7 +178,7 @@ test('can walk through an nih submission workflow and make a submission - base c
     await t.expect(linkToSubmission.exists).ok();
     await t.click(linkToSubmission);
 
-    const submissionDetailsBody = Selector('h2', {timeout: 15000}).withExactText('Submission Detail');
+    const submissionDetailsBody = Selector('h2', {timeout: 30000}).withExactText('Submission Detail');
     await t.expect(submissionDetailsBody.exists).ok();
 
     // Submission heading
