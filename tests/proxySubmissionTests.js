@@ -1,5 +1,5 @@
 import { Selector } from 'testcafe';
-const commonTest = require("./commonTest");
+import { userNih, currLocation, TIMEOUT_LENGTH } from './commonTest';
 
 fixture `Acceptance Testing`
     .page`https://pass.local`;
@@ -7,14 +7,14 @@ fixture `Acceptance Testing`
 test( 'can walk through a proxy submission workflow and make a submission - with pass account', async t => {
 
     // use role
-    await t.useRole(commonTest.userNih);
+    await t.useRole(userNih);
 
     // Go to Submissions
     const submissionsButton = Selector('.nav-link.ember-view').withExactText('Submissions');
     await t.expect(submissionsButton.exists).ok();
     await t.click(submissionsButton);
 
-    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions');
+    await t.expect(currLocation()).eql('https://pass.local/app/submissions');
 
     // Start new Submission
     const startNewSubmissionButton = Selector('.ember-view.btn.btn-primary.btn-small.pull-right').withAttribute('href', '/app/submissions/new');
@@ -22,7 +22,7 @@ test( 'can walk through a proxy submission workflow and make a submission - with
     await t.click(startNewSubmissionButton);
 
     // Select Proxy Submission button
-    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions/new/basics');
+    await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/basics');
     const proxyRadioButton = Selector('input').withAttribute('data-test-proxy-radio-button');
     await t.expect(proxyRadioButton.exists).ok();
     await t.click(proxyRadioButton);
@@ -53,23 +53,19 @@ test( 'can walk through a proxy submission workflow and make a submission - with
     
     await walkThroughSubmissionFlow(t, true);
 
-}).timeouts({
-    pageLoadTimeout:    60000,
-    pageRequestTimeout: 60000,
-    ajaxRequestTimeout: 60000,
 }).disablePageCaching;
 
 test('can walk through a proxy submission workflow and make a submission - without pass account', async t => {
 
     // use role
-    await t.useRole(commonTest.userNih);
+    await t.useRole(userNih);
 
     // Go to Submissions
-    const submissionsButton = Selector('.nav-link.ember-view', {timeout: 15000}).withExactText('Submissions');
+    const submissionsButton = Selector('.nav-link.ember-view', {timeout: TIMEOUT_LENGTH}).withExactText('Submissions');
     await t.expect(submissionsButton.exists).ok();
     await t.click(submissionsButton);
 
-    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions');
+    await t.expect(currLocation()).eql('https://pass.local/app/submissions');
 
     // Start new Submission
     const startNewSubmissionButton = Selector('.ember-view.btn.btn-primary.btn-small.pull-right').withAttribute('href', '/app/submissions/new');
@@ -77,7 +73,7 @@ test('can walk through a proxy submission workflow and make a submission - witho
     await t.click(startNewSubmissionButton);
 
     // Select Proxy Submission button
-    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions/new/basics');
+    await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/basics');
     const proxyRadioButton = Selector('input').withAttribute('data-test-proxy-radio-button');
     await t.expect(proxyRadioButton.exists).ok();
     await t.click(proxyRadioButton);
@@ -98,10 +94,6 @@ test('can walk through a proxy submission workflow and make a submission - witho
 
     await walkThroughSubmissionFlow(t, false);
 
-}).timeouts({
-    pageLoadTimeout:    60000,
-    pageRequestTimeout: 60000,
-    ajaxRequestTimeout: 60000,
 }).disablePageCaching;
 
 // t should be the test's promise, hasAccount should be a Bool
@@ -111,7 +103,7 @@ async function walkThroughSubmissionFlow(t, hasAccount){
     const doiInput = Selector('#doi');
     await t.expect(doiInput().exists).ok();
     await t.typeText(doiInput, '10.1039/c7an01256j', { paste: true });
-    const toastMessage = Selector('.toast-message', {timeout: 60000}).withText("We've pre-populated information from the DOI provided!");
+    const toastMessage = Selector('.toast-message', {timeout: TIMEOUT_LENGTH}).withText("We've pre-populated information from the DOI provided!");
     await t.expect(toastMessage.exists).ok();
 
     // Check that the title and journal values have been filled in
@@ -135,7 +127,7 @@ async function walkThroughSubmissionFlow(t, hasAccount){
     await t.expect(goToGrantsButton.exists).ok();
     await t.click(goToGrantsButton);
     
-    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions/new/grants');
+    await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/grants');
 
     if (hasAccount){
         // Select a Grant
@@ -158,13 +150,13 @@ async function walkThroughSubmissionFlow(t, hasAccount){
     await t.expect(goToPoliciesButton.exists).ok();
     await t.click(goToPoliciesButton);
 
-    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions/new/policies');
+    await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/policies');
     
     // Nothing to select here, move to Repositories page
     const goToRepositoriesButton = Selector('button').withAttribute('data-test-workflow-policies-next');
     await t.expect(goToRepositoriesButton.exists).ok();
     await t.click(goToRepositoriesButton);
-    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions/new/repositories');
+    await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/repositories');
 
     // Check Required Repositories
     const requiredRepositories = Selector('ul')
@@ -176,7 +168,7 @@ async function walkThroughSubmissionFlow(t, hasAccount){
     await t.expect(goToMetadataButton.exists).ok();
     await t.click(goToMetadataButton);
 
-    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions/new/metadata');
+    await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/metadata');
 
     // Check Article Title
     const articleTitle = Selector('textarea').withAttribute('name', 'title');
@@ -193,7 +185,7 @@ async function walkThroughSubmissionFlow(t, hasAccount){
     await t.expect(goToFilesButton.exists).ok();
     await t.click(goToFilesButton);
 
-    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions/new/files');
+    await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/files');
 
     // Upload no file here
     const goToReviewButton = Selector('button').withAttribute('data-test-workflow-files-next');
@@ -207,7 +199,7 @@ async function walkThroughSubmissionFlow(t, hasAccount){
     await t.expect(nextPageButton.exists).ok();
     await t.click(nextPageButton);
 
-    await t.expect(commonTest.currLocation()).eql('https://pass.local/app/submissions/new/review');
+    await t.expect(currLocation()).eql('https://pass.local/app/submissions/new/review');
 
     // Go to Review
     // Review Title
@@ -241,7 +233,7 @@ async function walkThroughSubmissionFlow(t, hasAccount){
     await t.click(reviewSubmitButton);
 
     // Thank You Page
-    const thankYouHeading = Selector('h1').withExactText('Thank you!');
+    const thankYouHeading = Selector('h1', {timeout: TIMEOUT_LENGTH}).withExactText('Thank you!');
     await t.expect(thankYouHeading.exists).ok();
 
     // Click to submittion detail for validation

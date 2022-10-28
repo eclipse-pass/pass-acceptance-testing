@@ -1,6 +1,6 @@
 import { Selector, Role, ClientFunction } from 'testcafe';
 
-const userNih = Role('https://pass.local', async t =>{
+export const userNih = Role('https://pass.local', async t =>{
     await t
         .click('#login-button')
         .typeText(Selector('#username'), 'nih-user')
@@ -8,7 +8,7 @@ const userNih = Role('https://pass.local', async t =>{
         .click(Selector(".form-element.form-button"));
 });
 
-const userIncompleteNih = Role('https://pass.local', async t =>{
+export const userIncompleteNih = Role('https://pass.local', async t =>{
     await t
         .click('#login-button')
         .typeText(Selector('#username'), 'incomplete-nih-user')
@@ -16,7 +16,7 @@ const userIncompleteNih = Role('https://pass.local', async t =>{
         .click(Selector(".form-element.form-button"));
 });
 
-const userStaff1 = Role('https://pass.local', async t =>{
+export const userStaff1 = Role('https://pass.local', async t =>{
     await t
         .click('#login-button')
         .typeText(Selector('#username'), 'staff1')
@@ -24,7 +24,7 @@ const userStaff1 = Role('https://pass.local', async t =>{
         .click(Selector(".form-element.form-button"));
 });
 
-const userAdminSubmitter = Role('https://pass.local', async t =>{
+export const userAdminSubmitter = Role('https://pass.local', async t =>{
     await t
         .click('#login-button')
         .typeText(Selector('#username'), 'admin-submitter')
@@ -32,12 +32,7 @@ const userAdminSubmitter = Role('https://pass.local', async t =>{
         .click(Selector(".form-element.form-button"));
 });
 
-const currLocation = ClientFunction((() => window.location.href));
+export const currLocation = ClientFunction((() => window.location.href));
 
-module.exports = {
-    userNih,
-    userIncompleteNih,
-    userStaff1,
-    userAdminSubmitter,
-    currLocation,
-};
+// set in milliseconds
+export const TIMEOUT_LENGTH = parseInt(process.env.TIMEOUT_LENGTH) || 60000;
