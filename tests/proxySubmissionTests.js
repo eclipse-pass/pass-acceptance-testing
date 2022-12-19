@@ -212,7 +212,8 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
   const requiredRepositories = Selector('ul')
     .withAttribute('data-test-workflow-repositories-required-list')
     .child('li')
-    .withExactText('JScholarship');
+    .withExactText('PubMed Central');
+
   await t.expect(requiredRepositories.exists).ok();
 
   // Go to Metadata
