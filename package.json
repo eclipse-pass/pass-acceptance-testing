@@ -5,6 +5,7 @@
   "repository": "https://github.com/eclipse-pass/pass-acceptance-testing.git",
   "author": "",
   "license": "Apache-2.0",
+  "type": "module",
   "scripts": {
     "test": "testcafe chrome tests/",
     "format:check": "prettier --check .",
