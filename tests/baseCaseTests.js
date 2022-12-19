@@ -71,9 +71,8 @@ test('can walk through an nih submission workflow and make a submission - base c
 
   // Select a Grant
   const nihGrant = Selector('#grants-selection-table a').withText('QQDV123P7');
-  await t.expect(nihGrant.exists).ok();
+  await t.expect(nihGrant.exists).ok().click(nihGrant.parent(0).nextSibling(0));
 
-  await t.click(nihGrant.parent(0));
   const submittedGrant = Selector('table')
     .withAttribute('data-test-submission-funding-table')
     .child('tbody')
