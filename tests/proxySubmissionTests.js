@@ -121,7 +121,7 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
   const doiInput = Selector('#doi');
   await t.expect(doiInput().exists).ok();
   await t.typeText(doiInput, '10.1039/c7an01256j', { paste: true });
-  const toastMessage = Selector('.toast-message', {
+  const toastMessage = Selector('.flash-message', {
     timeout: TIMEOUT_LENGTH,
   }).withText("We've pre-populated information from the DOI provided!");
   await t.expect(toastMessage.exists).ok();
