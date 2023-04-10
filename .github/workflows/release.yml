@@ -1,0 +1,54 @@
+name: Release PASS-Acceptance-Testing
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseversion:
+        required: true
+        description: Version to release (e.g. 0.3.0)
+      nextversion:
+        required: true
+        description: Next development version (e.g. 0.4.0-SNAPSHOT)
+
+jobs:
+  release:
+    if: github.repository == 'eclipse-pass/pass-acceptance-testing'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Config git user
+        run: |
+          git config user.name ${{ github.actor }}
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+      
+      - name: Update Project Version in package.json
+        run: |
+          apt install -y jq
+          jq '.version = ${{ inputs.releaseversion }}' package.json
+      
+      - name: Setup Node & Yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+
+      - name: Update project version to release version
+        run: |
+          yarn install --frozen-lockfile
+          yarn version --new-version ${{ inputs.releaseversion }}
+      - name: Tag release
+        run: git tag ${{ inputs.releaseversion }}
+
+      - name: Bump project version to next dev version
+        run: yarn version --new-version ${{ inputs.nextversion }}
+
+      # Commits made to branch specified in workflow_dispatch, push that branch if possible
+      - name: Push release commits to GH
+        if: github.ref_type == 'branch' && github.ref_protected == false
+        run: git push origin ${{ github.ref_name }}
+
+      # Push the release tag we made above
+      - name: Push release tag to GH
+        run: git push origin ${{ inputs.releaseversion }}
