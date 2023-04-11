@@ -23,11 +23,6 @@ jobs:
           git config user.name ${{ github.actor }}
           git config user.email "${{ github.actor }}@users.noreply.github.com"
       
-      - name: Update Project Version in package.json
-        run: |
-          apt install -y jq
-          jq '.version = ${{ inputs.releaseversion }}' package.json
-      
       - name: Setup Node & Yarn
         uses: actions/setup-node@v3
         with:
