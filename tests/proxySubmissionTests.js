@@ -1,11 +1,11 @@
 import { fixture, Selector, test } from 'testcafe';
-import { userNih, currLocation, TIMEOUT_LENGTH } from './commonTest';
+import { userAdminSubmitter, currLocation, TIMEOUT_LENGTH } from './commonTest';
 
 fixture`Acceptance Testing`.page`https://pass.local`;
 
 test('can walk through a proxy submission workflow and make a submission - with pass account', async (t) => {
   // use role
-  await t.useRole(userNih);
+  await t.useRole(userAdminSubmitter);
 
   // Go to Submissions
   const submissionsButton = Selector('.nav-link.ember-view').withExactText(
@@ -41,8 +41,8 @@ test('can walk through a proxy submission workflow and make a submission - with 
     'data-test-proxy-search-input'
   );
   await t.expect(proxySearchInput.exists).ok();
-  await t.typeText(proxySearchInput(), 'Staff');
-  await t.expect(proxySearchInput.value).eql('Staff');
+  await t.typeText(proxySearchInput(), 'nihuser');
+  await t.expect(proxySearchInput.value).eql('nihuser');
   const searchForUsers = Selector('#search-for-users');
   await t.expect(searchForUsers.exists).ok();
   await t.click(searchForUsers);
@@ -52,21 +52,21 @@ test('can walk through a proxy submission workflow and make a submission - with 
   await t.expect(searchResultsModal.exists).ok();
   const userHasGrantsLink = Selector('a')
     .withAttribute('data-test-found-proxy-user')
-    .withText('staffWithGrants@jhu.edu');
+    .withText('nihuser@jhu.edu');
   await t.expect(userHasGrantsLink.exists).ok();
   // Select Submitter
   await t.click(userHasGrantsLink);
   await t.expect(searchResultsModal.exists).notOk();
 
   const selectedUser = Selector('p').withText('Currently selected submitter:');
-  await t.expect(selectedUser.innerText).contains('Staff Hasgrants');
+  await t.expect(selectedUser.innerText).contains('Nihu Ser');
 
   await walkThroughSubmissionFlow(t, true);
 }).disablePageCaching;
 
 test('can walk through a proxy submission workflow and make a submission - without pass account', async (t) => {
   // use role
-  await t.useRole(userNih);
+  await t.useRole(userAdminSubmitter);
 
   // Go to Submissions
   const submissionsButton = Selector('.nav-link.ember-view', {
@@ -162,18 +162,22 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
   if (hasAccount) {
     // Select a Grant
     const hasGrantsGrant = Selector('#grants-selection-table a').withText(
-      'R124'
+      'R01EY012124'
     );
     await t.expect(hasGrantsGrant.exists).ok();
 
-    await t.click(hasGrantsGrant().parent(0));
+    await t.click(hasGrantsGrant.parent(0), {
+      // Just don't click on the anchor tag
+      offsetX: 1,
+      offsetY: 1,
+    });
     const submittedGrant = Selector('table')
       .withAttribute('data-test-submission-funding-table')
       .child('tbody')
       .child('tr')
       .child('td')
       .child('a')
-      .withText('R124');
+      .withText('R01EY012124');
     await t.expect(submittedGrant.exists).ok();
   } else {
     // Check that the No Account message is appearing
@@ -209,12 +213,25 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
     .eql('https://pass.local/app/submissions/new/repositories');
 
   // Check Required Repositories
-  const requiredRepositories = Selector('ul')
-    .withAttribute('data-test-workflow-repositories-required-list')
-    .child('li')
-    .withExactText('PubMed Central');
-
-  await t.expect(requiredRepositories.exists).ok();
+  if (hasAccount) {
+    await t
+      .expect(
+        Selector('ul')
+          .withAttribute('data-test-workflow-repositories-required-list')
+          .child('li')
+          .withText('PubMed Central').exists
+      )
+      .ok();
+  } else {
+    await t
+      .expect(
+        Selector('ul')
+          .withAttribute('data-test-workflow-repositories-required-list')
+          .child('li')
+          .withText('JScholarship').exists
+      )
+      .ok();
+  }
 
   // Go to Metadata
   const goToMetadataButton = Selector('button').withAttribute(
@@ -290,8 +307,8 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
     const reviewGrants = Selector('ul')
       .withAttribute('data-test-workflow-review-grant-list')
       .child('li')
-      .withText('R124');
-    await t.expect(reviewGrants.innerText).contains('R124');
+      .withText('R01EY012124');
+    await t.expect(reviewGrants.innerText).contains('R01EY012124');
   }
 
   // Review that this is a proxy submission
@@ -300,7 +317,7 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
     .withText('This submission is prepared on behalf of');
   await t.expect(submitterComment.exists).ok();
   if (hasAccount) {
-    await t.expect(submitterComment.innerText).contains('Staff Hasgrants');
+    await t.expect(submitterComment.innerText).contains('Nihu Ser');
   } else {
     await t.expect(submitterComment.innerText).contains('John Moo');
   }
@@ -342,7 +359,7 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
 
   // Grant status
   if (hasAccount) {
-    const submissionGrants = Selector('li').withText('R124');
+    const submissionGrants = Selector('li').withText('R01EY012124');
     await t.expect(submissionGrants.exists).ok();
   }
 }
