@@ -1,6 +1,6 @@
 import { Selector, Role, ClientFunction } from 'testcafe';
 
-const LOGIN_URL = 'https://pass.local/login/jhu';
+const LOGIN_URL = 'https://pass.local/login/saml';
 
 export const userNih = Role(
   LOGIN_URL,
