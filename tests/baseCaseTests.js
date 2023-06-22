@@ -8,7 +8,7 @@ test('can walk through an nih submission workflow and make a submission - base c
   await t.useRole(userNih);
 
   // Go to Submissions
-  const submissionsButton = Selector('.nav-link.ember-view').withExactText(
+  const submissionsButton = Selector('.nav-link.ember-view').withText(
     'Submissions'
   );
   await t.expect(submissionsButton.exists).ok();
@@ -114,14 +114,14 @@ test('can walk through an nih submission workflow and make a submission - base c
   const requiredRepositories = Selector('ul')
     .withAttribute('data-test-workflow-repositories-required-list')
     .child('li')
-    .withExactText('PubMed Central - NATIONAL INSTITUTE OF HEALTH');
+    .withText('PubMed Central - NATIONAL INSTITUTE OF HEALTH');
   await t.expect(requiredRepositories.exists).ok();
 
   // Check Optional Repositories
   const optionalRepositories = Selector('ul')
     .withAttribute('data-test-workflow-repositories-optional-list')
     .child('li')
-    .withExactText('JScholarship');
+    .withText('JScholarship');
   await t.expect(optionalRepositories.exists).ok();
   await t.expect(optionalRepositories.child('input').checked).eql(true);
 
@@ -209,7 +209,7 @@ test('can walk through an nih submission workflow and make a submission - base c
   // Review Uploaded File
   const reviewFile = Selector('td')
     .withAttribute('data-test-workflow-review-file-name')
-    .withExactText('my-submission.pdf');
+    .withText('my-submission.pdf');
   await t.expect(reviewFile.exists).ok();
 
   // Submit
@@ -241,27 +241,27 @@ test('can walk through an nih submission workflow and make a submission - base c
   await t.click(confirmButton);
 
   // Thank You Page
-  const thankYouHeading = Selector('h1').withExactText('Thank you!');
+  const thankYouHeading = Selector('h1').withText('Thank you!');
   await t.expect(thankYouHeading.exists).ok();
 
   // Click to submittion detail for validation
-  const linkToSubmission = Selector('a').withExactText('here');
+  const linkToSubmission = Selector('a').withText('here');
   await t.expect(linkToSubmission.exists).ok();
   await t.click(linkToSubmission);
 
   const submissionDetailsBody = Selector('h2', {
     timeout: TIMEOUT_LENGTH,
-  }).withExactText('Submission Detail');
+  }).withText('Submission Detail');
   await t.expect(submissionDetailsBody.exists).ok();
 
   // Submission heading
-  const submittedHeading = Selector('h5').withExactText(
+  const submittedHeading = Selector('h5').withText(
     'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
   );
   await t.expect(submittedHeading.exists).ok();
 
   // Submission DOI
-  const submittedDoi = Selector('p').withExactText('DOI: 10.1039/c7an01256j');
+  const submittedDoi = Selector('p').withText('DOI: 10.1039/c7an01256j');
   await t.expect(submittedDoi.exists).ok();
 
   // Submission Status
@@ -277,15 +277,15 @@ test('can walk through an nih submission workflow and make a submission - base c
 
   // Repository statuses
   const submissionRepositoryJScholarship =
-    Selector('a').withExactText('JScholarship');
+    Selector('a').withText('JScholarship');
   await t.expect(submissionRepositoryJScholarship.exists).ok();
 
   const submissionRepositoryPubMedCentral =
-    Selector('a').withExactText('PubMed Central');
+    Selector('a').withText('PubMed Central');
   await t.expect(submissionRepositoryPubMedCentral.exists).ok();
 
   // Submitted File
   // TODO: won't work due to bad file mocks
-  //   const submittedFile = Selector('a').withExactText('my-submission.pdf');
+  //   const submittedFile = Selector('a').withText('my-submission.pdf');
   //   await t.expect(submittedFile.exists).ok();
 }).disablePageCaching;
