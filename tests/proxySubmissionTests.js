@@ -8,7 +8,7 @@ test('can walk through a proxy submission workflow and make a submission - with 
   await t.useRole(userAdminSubmitter);
 
   // Go to Submissions
-  const submissionsButton = Selector('.nav-link.ember-view').withExactText(
+  const submissionsButton = Selector('.nav-link.ember-view').withText(
     'Submissions'
   );
   await t.expect(submissionsButton.exists).ok();
@@ -71,7 +71,7 @@ test('can walk through a proxy submission workflow and make a submission - witho
   // Go to Submissions
   const submissionsButton = Selector('.nav-link.ember-view', {
     timeout: TIMEOUT_LENGTH,
-  }).withExactText('Submissions');
+  }).withText('Submissions');
   await t.expect(submissionsButton.exists).ok();
   await t.click(submissionsButton);
 
@@ -272,12 +272,12 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
   await t.expect(goToReviewButton.exists).ok();
   await t.click(goToReviewButton);
 
-  const noManuscriptAlert = Selector('#swal2-title').withExactText(
+  const noManuscriptAlert = Selector('#swal2-title').withText(
     'No manuscript present'
   );
   await t.expect(noManuscriptAlert.exists).ok();
 
-  const nextPageButton = Selector('.swal2-confirm').withExactText('OK');
+  const nextPageButton = Selector('.swal2-confirm').withText('OK');
   await t.expect(nextPageButton.exists).ok();
   await t.click(nextPageButton);
 
@@ -332,22 +332,22 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
   // Thank You Page
   const thankYouHeading = Selector('h1', {
     timeout: TIMEOUT_LENGTH,
-  }).withExactText('Thank you!');
+  }).withText('Thank you!');
   await t.expect(thankYouHeading.exists).ok();
 
   // Click to submittion detail for validation
-  const linkToSubmission = Selector('a').withExactText('here');
+  const linkToSubmission = Selector('a').withText('here');
   await t.expect(linkToSubmission.exists).ok();
   await t.click(linkToSubmission);
 
   // Submission heading
-  const submittedHeading = Selector('h5').withExactText(
+  const submittedHeading = Selector('h5').withText(
     'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
   );
   await t.expect(submittedHeading.exists).ok();
 
   // Submission DOI
-  const submittedDoi = Selector('p').withExactText('DOI: 10.1039/c7an01256j');
+  const submittedDoi = Selector('p').withText('DOI: 10.1039/c7an01256j');
   await t.expect(submittedDoi.exists).ok();
 
   // Submission Status
