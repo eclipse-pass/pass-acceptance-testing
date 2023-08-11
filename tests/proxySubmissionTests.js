@@ -273,8 +273,6 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
   );
   await t.expect(goToReviewButton.exists).ok();
   await t.click(goToReviewButton);
-  // await t.expect(Selector('button[data-test-workflow-files-next]').exists).ok();
-  // await t.click(Selector('button[data-test-workflow-files-next]'));
 
   const noManuscriptAlert = Selector('#swal2-title').withText(
     'No manuscript present'
