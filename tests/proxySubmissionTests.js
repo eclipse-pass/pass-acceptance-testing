@@ -18,7 +18,7 @@ test('can walk through a proxy submission workflow and make a submission - with 
 
   // Start new Submission
   const startNewSubmissionButton = Selector(
-    '.ember-view.btn.btn-primary.btn-small.pull-right'
+    '.ember-view.btn.btn-primary'
   ).withAttribute('href', '/app/submissions/new');
   await t.expect(startNewSubmissionButton.exists).ok();
   await t.click(startNewSubmissionButton);
@@ -79,7 +79,7 @@ test('can walk through a proxy submission workflow and make a submission - witho
 
   // Start new Submission
   const startNewSubmissionButton = Selector(
-    '.ember-view.btn.btn-primary.btn-small.pull-right'
+    '.ember-view.btn.btn-primary'
   ).withAttribute('href', '/app/submissions/new');
   await t.expect(startNewSubmissionButton.exists).ok();
   await t.click(startNewSubmissionButton);
@@ -265,12 +265,16 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
     .expect(currLocation())
     .eql('https://pass.local/app/submissions/new/files');
 
+  await t.expect(Selector('div[data-test-foundmss-component]').exists).ok();
+
   // Upload no file here
   const goToReviewButton = Selector('button').withAttribute(
     'data-test-workflow-files-next'
   );
   await t.expect(goToReviewButton.exists).ok();
   await t.click(goToReviewButton);
+  // await t.expect(Selector('button[data-test-workflow-files-next]').exists).ok();
+  // await t.click(Selector('button[data-test-workflow-files-next]'));
 
   const noManuscriptAlert = Selector('#swal2-title').withText(
     'No manuscript present'

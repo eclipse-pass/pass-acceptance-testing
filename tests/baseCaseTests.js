@@ -18,7 +18,7 @@ test('can walk through an nih submission workflow and make a submission - base c
 
   // Start new Submission
   const startNewSubmissionButton = Selector(
-    '.ember-view.btn.btn-primary.btn-small.pull-right'
+    '.ember-view.btn.btn-primary'
   ).withAttribute('href', '/app/submissions/new');
   await t.expect(startNewSubmissionButton.exists).ok();
   await t.click(startNewSubmissionButton);
