@@ -220,13 +220,18 @@ test('can walk through an nih submission workflow and make a submission - base c
   await t.click(reviewSubmitButton);
 
   // Agree to terms
-  const agreeTermsCheckbox = Selector('#swal2-checkbox').withAttribute(
+  const agreeTermsRadio = Selector('.swal2-radio input').withAttribute(
     'type',
-    'checkbox'
+    'radio',
+    'value',
+    'agree'
   );
-  await t.expect(agreeTermsCheckbox.checked).eql(false);
-  await t.click(agreeTermsCheckbox);
-  await t.expect(agreeTermsCheckbox.checked).eql(true);
+  await t
+    .expect(agreeTermsRadio.checked)
+    .eql(false)
+    .click(agreeTermsRadio)
+    .expect(agreeTermsRadio.checked)
+    .eql(true);
 
   // Next Button
   const nextButton = Selector('.swal2-confirm.swal2-styled').withText('Next');
