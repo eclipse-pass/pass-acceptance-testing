@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
-    "test": "testcafe chrome tests/",
+    "test": "./runtest.sh",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
     "lint:check": "eslint .",
@@ -22,7 +22,7 @@
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
-    "testcafe": "^2.4.0"
+    "testcafe": "3.3.0"
   },
   "husky": {
     "hooks": {
@@ -36,6 +36,6 @@
     ]
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   }
 }
