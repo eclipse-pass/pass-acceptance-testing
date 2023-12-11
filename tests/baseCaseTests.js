@@ -1,11 +1,11 @@
 import { fixture, Selector, test } from 'testcafe';
-import { userNih, currLocation, TIMEOUT_LENGTH } from './commonTest';
+import { currLocation, TIMEOUT_LENGTH, login } from './commonTest';
 
 fixture`Acceptance Testing`.page`https://pass.local`;
 
 test('can walk through an nih submission workflow and make a submission - base case', async (t) => {
   // Log in
-  await t.useRole(userNih);
+  login('nih-user');
 
   // Go to Submissions
   const submissionsButton = Selector('.nav-link.ember-view').withText(
