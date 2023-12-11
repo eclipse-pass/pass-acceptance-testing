@@ -1,11 +1,12 @@
 import { fixture, Selector, test } from 'testcafe';
-import { userAdminSubmitter, currLocation, TIMEOUT_LENGTH } from './commonTest';
+import { currLocation, TIMEOUT_LENGTH, login, logout } from './commonTest';
 
-fixture`Acceptance Testing`.page`https://pass.local`;
+fixture`Acceptance Testing`.page`https://pass.local`.afterEach(logout);
 
 test('can walk through a proxy submission workflow and make a submission - with pass account', async (t) => {
   // use role
-  await t.useRole(userAdminSubmitter);
+  // await t.useRole(userAdminSubmitter);
+  login('admin-submitter');
 
   // Go to Submissions
   const submissionsButton = Selector('.nav-link.ember-view').withText(
@@ -66,7 +67,8 @@ test('can walk through a proxy submission workflow and make a submission - with 
 
 test('can walk through a proxy submission workflow and make a submission - without pass account', async (t) => {
   // use role
-  await t.useRole(userAdminSubmitter);
+  // await t.useRole(userAdminSubmitter);
+  login('admin-submitter');
 
   // Go to Submissions
   const submissionsButton = Selector('.nav-link.ember-view', {
