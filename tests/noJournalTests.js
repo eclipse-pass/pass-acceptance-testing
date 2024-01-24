@@ -125,7 +125,7 @@ test('can walk through an nih submission workflow and make a submission - withou
   await t
     .expect(authorInput.exists)
     .ok()
-    .typeText(authorInput, 'Moo author', { paste: true });
+    .typeText(authorInput, 'Moo author', { paste: true, speed: 0.75 });
 
   // Go to Files
   const goToFilesButton = Selector('.alpaca-form-button-Next');
