@@ -38,6 +38,16 @@ runs:
       working-directory: pass-docker
       run: docker compose -f docker-compose.yml -f eclipse-pass.local.yml up -d --no-build --quiet-pull --pull ${{ inputs.pullimages }}
 
+    # Show both views to see which images are in use by docker compose but with extra info like time created from docker
+    - name: Print Docker images
+      shell: bash
+      working-directory: pass-docker
+      run: |
+        echo "##############"
+        docker images
+        echo "##############"
+        docker compose images
+
     - name: Run acceptance tests
       shell: bash
       working-directory: pass-acceptance-testing
