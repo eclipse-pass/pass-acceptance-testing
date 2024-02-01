@@ -38,6 +38,11 @@ runs:
       working-directory: pass-docker
       run: docker compose -f docker-compose.yml -f eclipse-pass.local.yml up -d --no-build --quiet-pull --pull ${{ inputs.pullimages }}
 
+    - name: Print Docker images
+      shell: bash
+      working-directory: pass-docker
+      run: docker images
+
     - name: Run acceptance tests
       shell: bash
       working-directory: pass-acceptance-testing
