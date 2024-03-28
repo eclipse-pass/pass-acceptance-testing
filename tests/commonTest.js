@@ -1,6 +1,6 @@
 import { Selector, ClientFunction, t } from 'testcafe';
 
-const LOGIN_URL = 'https://pass.local/login/saml';
+const LOGIN_URL = 'http://localhost:8080/app/';
 
 export const USER = {
   NIH_USER: 'nih-user',

@@ -1,7 +1,7 @@
 import { fixture, Selector, test } from 'testcafe';
 import { currLocation, TIMEOUT_LENGTH, login } from './commonTest';
 
-fixture`Acceptance Testing`.page`https://pass.local`;
+fixture`Acceptance Testing`.page`http://localhost:8080`;
 
 test('can walk through an nih submission workflow and make a submission - without selecting a journal', async (t) => {
   // Log in
@@ -14,7 +14,7 @@ test('can walk through an nih submission workflow and make a submission - withou
   await t.expect(submissionsButton.exists).ok();
   await t.click(submissionsButton);
 
-  await t.expect(currLocation()).eql('https://pass.local/app/submissions');
+  await t.expect(currLocation()).eql('http://localhost:8080/app/submissions');
 
   // Start new Submission
   const startNewSubmissionButton = Selector(
@@ -25,7 +25,7 @@ test('can walk through an nih submission workflow and make a submission - withou
 
   await t
     .expect(currLocation())
-    .eql('https://pass.local/app/submissions/new/basics');
+    .eql('http://localhost:8080/app/submissions/new/basics');
 
   // do not enter a DOI and enter a title manually
   const titleName = Selector('#title');
@@ -48,7 +48,7 @@ test('can walk through an nih submission workflow and make a submission - withou
 
   await t
     .expect(currLocation())
-    .eql('https://pass.local/app/submissions/new/grants');
+    .eql('http://localhost:8080/app/submissions/new/grants');
 
   // Select a Grant
   const nihGrant = Selector('#grants-selection-table a').withText('Z0650001');
@@ -72,7 +72,7 @@ test('can walk through an nih submission workflow and make a submission - withou
 
   await t
     .expect(currLocation())
-    .eql('https://pass.local/app/submissions/new/policies');
+    .eql('http://localhost:8080/app/submissions/new/policies');
 
   // Check that JHU policy exists
   const jhuRepository = Selector('h3')
@@ -89,7 +89,7 @@ test('can walk through an nih submission workflow and make a submission - withou
 
   await t
     .expect(currLocation())
-    .eql('https://pass.local/app/submissions/new/repositories');
+    .eql('http://localhost:8080/app/submissions/new/repositories');
 
   // Check Required Repositories
   const requiredRepositories = Selector('ul')
@@ -107,7 +107,7 @@ test('can walk through an nih submission workflow and make a submission - withou
 
   await t
     .expect(currLocation())
-    .eql('https://pass.local/app/submissions/new/metadata');
+    .eql('http://localhost:8080/app/submissions/new/metadata');
 
   // Check Article Title
   const articleTitle = Selector('textarea').withAttribute('name', 'title');
@@ -134,7 +134,7 @@ test('can walk through an nih submission workflow and make a submission - withou
 
   await t
     .expect(currLocation())
-    .eql('https://pass.local/app/submissions/new/files');
+    .eql('http://localhost:8080/app/submissions/new/files');
 
   // Get Browse Files button
   const browseFilesButton = Selector('#file-multiple-input');
@@ -160,7 +160,7 @@ test('can walk through an nih submission workflow and make a submission - withou
 
   await t
     .expect(currLocation())
-    .eql('https://pass.local/app/submissions/new/review');
+    .eql('http://localhost:8080/app/submissions/new/review');
 
   // Review Title
   const reviewTitle = Selector('.mb-1').withAttribute(
