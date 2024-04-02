@@ -1,7 +1,7 @@
 import { fixture, Selector, test } from 'testcafe';
 import { currLocation, TIMEOUT_LENGTH, login, logout } from './commonTest';
 
-fixture`Acceptance Testing`.page`https://pass.local`.afterEach(logout);
+fixture`Acceptance Testing`.page`http://localhost:8080`.afterEach(logout);
 
 test('can walk through a proxy submission workflow and make a submission - with pass account', async (t) => {
   // use role
@@ -15,7 +15,7 @@ test('can walk through a proxy submission workflow and make a submission - with 
   await t.expect(submissionsButton.exists).ok();
   await t.click(submissionsButton);
 
-  await t.expect(currLocation()).eql('https://pass.local/app/submissions');
+  await t.expect(currLocation()).eql('http://localhost:8080/app/submissions');
 
   // Start new Submission
   const startNewSubmissionButton = Selector(
@@ -27,7 +27,7 @@ test('can walk through a proxy submission workflow and make a submission - with 
   // Select Proxy Submission button
   await t
     .expect(currLocation())
-    .eql('https://pass.local/app/submissions/new/basics');
+    .eql('http://localhost:8080/app/submissions/new/basics');
   const proxyRadioButton = Selector('input').withAttribute(
     'data-test-proxy-radio-button'
   );
@@ -77,7 +77,7 @@ test('can walk through a proxy submission workflow and make a submission - witho
   await t.expect(submissionsButton.exists).ok();
   await t.click(submissionsButton);
 
-  await t.expect(currLocation()).eql('https://pass.local/app/submissions');
+  await t.expect(currLocation()).eql('http://localhost:8080/app/submissions');
 
   // Start new Submission
   const startNewSubmissionButton = Selector(
@@ -89,7 +89,7 @@ test('can walk through a proxy submission workflow and make a submission - witho
   // Select Proxy Submission button
   await t
     .expect(currLocation())
-    .eql('https://pass.local/app/submissions/new/basics');
+    .eql('http://localhost:8080/app/submissions/new/basics');
   const proxyRadioButton = Selector('input').withAttribute(
     'data-test-proxy-radio-button'
   );
@@ -159,7 +159,7 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
 
   await t
     .expect(currLocation())
-    .eql('https://pass.local/app/submissions/new/grants');
+    .eql('http://localhost:8080/app/submissions/new/grants');
 
   if (hasAccount) {
     // Select a Grant
@@ -202,7 +202,7 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
 
   await t
     .expect(currLocation())
-    .eql('https://pass.local/app/submissions/new/policies');
+    .eql('http://localhost:8080/app/submissions/new/policies');
 
   // Nothing to select here, move to Repositories page
   const goToRepositoriesButton = Selector('button').withAttribute(
@@ -212,7 +212,7 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
   await t.click(goToRepositoriesButton);
   await t
     .expect(currLocation())
-    .eql('https://pass.local/app/submissions/new/repositories');
+    .eql('http://localhost:8080/app/submissions/new/repositories');
 
   // Check Required Repositories
   if (hasAccount) {
@@ -244,7 +244,7 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
 
   await t
     .expect(currLocation())
-    .eql('https://pass.local/app/submissions/new/metadata');
+    .eql('http://localhost:8080/app/submissions/new/metadata');
 
   // Check Article Title
   const articleTitle = Selector('textarea').withAttribute('name', 'title');
@@ -265,7 +265,7 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
 
   await t
     .expect(currLocation())
-    .eql('https://pass.local/app/submissions/new/files');
+    .eql('http://localhost:8080/app/submissions/new/files');
 
   await t.expect(Selector('div[data-test-foundmss-component]').exists).ok();
 
@@ -287,7 +287,7 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
 
   await t
     .expect(currLocation())
-    .eql('https://pass.local/app/submissions/new/review');
+    .eql('http://localhost:8080/app/submissions/new/review');
 
   // Go to Review
   // Review Title
