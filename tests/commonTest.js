@@ -1,6 +1,9 @@
 import { Selector, ClientFunction, t } from 'testcafe';
+import minimist from 'minimist';
 
-const LOGIN_URL = 'http://localhost:8080/app/';
+export const PASS_BASE_URL = minimist(process.argv.slice(2))['base-url'];
+
+const LOGIN_URL = `${PASS_BASE_URL}/app/`;
 
 export const USER = {
   NIH_USER: 'nih-user',
