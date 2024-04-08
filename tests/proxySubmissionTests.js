@@ -1,7 +1,13 @@
 import { fixture, Selector, test } from 'testcafe';
-import { currLocation, TIMEOUT_LENGTH, login, logout } from './commonTest';
+import {
+  currLocation,
+  TIMEOUT_LENGTH,
+  login,
+  logout,
+  PASS_BASE_URL,
+} from './commonTest';
 
-fixture`Acceptance Testing`.page`http://localhost:8080`.afterEach(logout);
+fixture`Acceptance Testing: Proxy Submission`.afterEach(logout);
 
 test('can walk through a proxy submission workflow and make a submission - with pass account', async (t) => {
   // use role
@@ -15,7 +21,7 @@ test('can walk through a proxy submission workflow and make a submission - with 
   await t.expect(submissionsButton.exists).ok();
   await t.click(submissionsButton);
 
-  await t.expect(currLocation()).eql('http://localhost:8080/app/submissions');
+  await t.expect(currLocation()).eql(`${PASS_BASE_URL}/app/submissions`);
 
   // Start new Submission
   const startNewSubmissionButton = Selector(
@@ -27,7 +33,7 @@ test('can walk through a proxy submission workflow and make a submission - with 
   // Select Proxy Submission button
   await t
     .expect(currLocation())
-    .eql('http://localhost:8080/app/submissions/new/basics');
+    .eql(`${PASS_BASE_URL}/app/submissions/new/basics`);
   const proxyRadioButton = Selector('input').withAttribute(
     'data-test-proxy-radio-button'
   );
@@ -77,7 +83,7 @@ test('can walk through a proxy submission workflow and make a submission - witho
   await t.expect(submissionsButton.exists).ok();
   await t.click(submissionsButton);
 
-  await t.expect(currLocation()).eql('http://localhost:8080/app/submissions');
+  await t.expect(currLocation()).eql(`${PASS_BASE_URL}/app/submissions`);
 
   // Start new Submission
   const startNewSubmissionButton = Selector(
@@ -89,7 +95,7 @@ test('can walk through a proxy submission workflow and make a submission - witho
   // Select Proxy Submission button
   await t
     .expect(currLocation())
-    .eql('http://localhost:8080/app/submissions/new/basics');
+    .eql(`${PASS_BASE_URL}/app/submissions/new/basics`);
   const proxyRadioButton = Selector('input').withAttribute(
     'data-test-proxy-radio-button'
   );
@@ -159,7 +165,7 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
 
   await t
     .expect(currLocation())
-    .eql('http://localhost:8080/app/submissions/new/grants');
+    .eql(`${PASS_BASE_URL}/app/submissions/new/grants`);
 
   if (hasAccount) {
     // Select a Grant
@@ -202,7 +208,7 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
 
   await t
     .expect(currLocation())
-    .eql('http://localhost:8080/app/submissions/new/policies');
+    .eql(`${PASS_BASE_URL}/app/submissions/new/policies`);
 
   // Nothing to select here, move to Repositories page
   const goToRepositoriesButton = Selector('button').withAttribute(
@@ -212,7 +218,7 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
   await t.click(goToRepositoriesButton);
   await t
     .expect(currLocation())
-    .eql('http://localhost:8080/app/submissions/new/repositories');
+    .eql(`${PASS_BASE_URL}/app/submissions/new/repositories`);
 
   // Check Required Repositories
   if (hasAccount) {
@@ -244,7 +250,7 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
 
   await t
     .expect(currLocation())
-    .eql('http://localhost:8080/app/submissions/new/metadata');
+    .eql(`${PASS_BASE_URL}/app/submissions/new/metadata`);
 
   // Check Article Title
   const articleTitle = Selector('textarea').withAttribute('name', 'title');
@@ -265,7 +271,7 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
 
   await t
     .expect(currLocation())
-    .eql('http://localhost:8080/app/submissions/new/files');
+    .eql(`${PASS_BASE_URL}/app/submissions/new/files`);
 
   await t.expect(Selector('div[data-test-foundmss-component]').exists).ok();
 
@@ -287,7 +293,7 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
 
   await t
     .expect(currLocation())
-    .eql('http://localhost:8080/app/submissions/new/review');
+    .eql(`${PASS_BASE_URL}/app/submissions/new/review`);
 
   // Go to Review
   // Review Title
