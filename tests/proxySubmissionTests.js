@@ -6,6 +6,11 @@ import {
   logout,
   PASS_BASE_URL,
 } from './commonTest';
+import submissionsPage from './page_model/Submissions';
+import submissionBasic from './page_model/SubmissionBasic';
+import submissionGrantsPage from './page_model/SubmissionGrants';
+import submissionPoliciesPage from './page_model/SubmissionPolicies';
+import submissionRepositoriesPage from './page_model/SubmissionRepositories';
 
 fixture`Acceptance Testing: Proxy Submission`.afterEach(logout);
 
@@ -14,26 +19,10 @@ test('can walk through a proxy submission workflow and make a submission - with 
   // await t.useRole(userAdminSubmitter);
   login('admin-submitter');
 
-  // Go to Submissions
-  const submissionsButton = Selector('.nav-link.ember-view').withText(
-    'Submissions'
-  );
-  await t.expect(submissionsButton.exists).ok();
-  await t.click(submissionsButton);
-
-  await t.expect(currLocation()).eql(`${PASS_BASE_URL}/app/submissions`);
-
   // Start new Submission
-  const startNewSubmissionButton = Selector(
-    '.ember-view.btn.btn-primary'
-  ).withAttribute('href', '/app/submissions/new');
-  await t.expect(startNewSubmissionButton.exists).ok();
-  await t.click(startNewSubmissionButton);
+  await submissionsPage.startSubmission();
 
   // Select Proxy Submission button
-  await t
-    .expect(currLocation())
-    .eql(`${PASS_BASE_URL}/app/submissions/new/basics`);
   const proxyRadioButton = Selector('input').withAttribute(
     'data-test-proxy-radio-button'
   );
@@ -77,20 +66,8 @@ test('can walk through a proxy submission workflow and make a submission - witho
   login('admin-submitter');
 
   // Go to Submissions
-  const submissionsButton = Selector('.nav-link.ember-view', {
-    timeout: TIMEOUT_LENGTH,
-  }).withText('Submissions');
-  await t.expect(submissionsButton.exists).ok();
-  await t.click(submissionsButton);
-
-  await t.expect(currLocation()).eql(`${PASS_BASE_URL}/app/submissions`);
-
   // Start new Submission
-  const startNewSubmissionButton = Selector(
-    '.ember-view.btn.btn-primary'
-  ).withAttribute('href', '/app/submissions/new');
-  await t.expect(startNewSubmissionButton.exists).ok();
-  await t.click(startNewSubmissionButton);
+  await submissionsPage.startSubmission();
 
   // Select Proxy Submission button
   await t
@@ -125,68 +102,17 @@ test('can walk through a proxy submission workflow and make a submission - witho
 
 // t should be the test's promise, hasAccount should be a Bool
 async function walkThroughSubmissionFlow(t, hasAccount) {
-  // DOI
-  const doiInput = Selector('#doi');
-  await t.expect(doiInput().exists).ok();
-  await t.typeText(doiInput, '10.1039/c7an01256j', { paste: true });
-  const toastMessage = Selector('.flash-message', {
-    timeout: TIMEOUT_LENGTH,
-  }).withText("We've pre-populated information from the DOI provided!");
-  await t.expect(toastMessage.exists).ok();
-
-  // Check that the title and journal values have been filled in
-  const titleName = Selector('#title');
-  await t
-    .expect(titleName.value)
-    .eql(
-      'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
-    );
-
-  const journalName = Selector('.form-control').withAttribute(
-    'data-test-journal-name-input'
+  await submissionBasic.inputDoi('10.1039/c7an01256j');
+  await submissionBasic.validateTitle(
+    'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
   );
-  await t.expect(journalName.value).eql('The Analyst');
+  await submissionBasic.validateJournal('The Analyst');
+  await submissionBasic.validateTitleAndJournalReadOnly();
 
-  // Check that the title and journal values cannot be edited
-  await t.typeText(titleName, 'moo');
-  await t
-    .expect(titleName.value)
-    .eql(
-      'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
-    );
-
-  await t.typeText(journalName, 'moo');
-  await t.expect(journalName.value).eql('The Analyst');
-
-  // Go to Grants
-  const goToGrantsButton = Selector('.btn.btn-primary.pull-right.next');
-  await t.expect(goToGrantsButton.exists).ok();
-  await t.click(goToGrantsButton);
-
-  await t
-    .expect(currLocation())
-    .eql(`${PASS_BASE_URL}/app/submissions/new/grants`);
+  await submissionBasic.clickNextToGrants();
 
   if (hasAccount) {
-    // Select a Grant
-    const hasGrantsGrant = Selector('#grants-selection-table a').withText(
-      'R01EY012124'
-    );
-    await t.expect(hasGrantsGrant.exists).ok();
-
-    await t.click(hasGrantsGrant.parent(0), {
-      // Just don't click on the anchor tag
-      offsetX: 1,
-      offsetY: 1,
-    });
-    const submittedGrant = Selector('table')
-      .withAttribute('data-test-submission-funding-table')
-      .child('tbody')
-      .child('tr')
-      .child('td')
-      .child('a')
-      .withText('R01EY012124');
-    await t.expect(submittedGrant.exists).ok();
+    await submissionGrantsPage.selectGrant('R01EY012124');
   } else {
     // Check that the No Account message is appearing
     const hasNoGrantsMessage = Selector('p').withAttribute(
@@ -199,58 +125,19 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
       );
   }
 
-  // Go to Policies
-  const goToPoliciesButton = Selector('button').withAttribute(
-    'data-test-workflow-grants-next'
-  );
-  await t.expect(goToPoliciesButton.exists).ok();
-  await t.click(goToPoliciesButton);
-
-  await t
-    .expect(currLocation())
-    .eql(`${PASS_BASE_URL}/app/submissions/new/policies`);
+  await submissionGrantsPage.clickNextToPolicies();
 
   // Nothing to select here, move to Repositories page
-  const goToRepositoriesButton = Selector('button').withAttribute(
-    'data-test-workflow-policies-next'
-  );
-  await t.expect(goToRepositoriesButton.exists).ok();
-  await t.click(goToRepositoriesButton);
-  await t
-    .expect(currLocation())
-    .eql(`${PASS_BASE_URL}/app/submissions/new/repositories`);
+  await submissionPoliciesPage.clickNextToRepositories();
 
   // Check Required Repositories
   if (hasAccount) {
-    await t
-      .expect(
-        Selector('ul')
-          .withAttribute('data-test-workflow-repositories-required-list')
-          .child('li')
-          .withText('PubMed Central').exists
-      )
-      .ok();
+    await submissionRepositoriesPage.verifyRequiredRepository('PubMed Central');
   } else {
-    await t
-      .expect(
-        Selector('ul')
-          .withAttribute('data-test-workflow-repositories-required-list')
-          .child('li')
-          .withText('JScholarship').exists
-      )
-      .ok();
+    await submissionRepositoriesPage.verifyRequiredRepository('JScholarship');
   }
 
-  // Go to Metadata
-  const goToMetadataButton = Selector('button').withAttribute(
-    'data-test-workflow-repositories-next'
-  );
-  await t.expect(goToMetadataButton.exists).ok();
-  await t.click(goToMetadataButton);
-
-  await t
-    .expect(currLocation())
-    .eql(`${PASS_BASE_URL}/app/submissions/new/metadata`);
+  await submissionRepositoriesPage.clickNextToMetadata();
 
   // Check Article Title
   const articleTitle = Selector('textarea').withAttribute('name', 'title');

@@ -5,114 +5,36 @@ import {
   login,
   PASS_BASE_URL,
 } from './commonTest';
+import submissionsPage from './page_model/Submissions';
+import submissionBasic from './page_model/SubmissionBasic';
+import submissionGrantsPage from './page_model/SubmissionGrants';
+import submissionPoliciesPage from './page_model/SubmissionPolicies';
+import submissionRepositoriesPage from './page_model/SubmissionRepositories';
 
-fixture`Acceptance Testin: No Journal`;
+fixture`Acceptance Testing: No Journal`;
 
 test('can walk through an nih submission workflow and make a submission - without selecting a journal', async (t) => {
   // Log in
   login('nih-user');
 
-  // Go to Submissions
-  const submissionsButton = Selector('.nav-link.ember-view').withText(
-    'Submissions'
+  await submissionsPage.startSubmission();
+
+  await submissionBasic.inputTitle('My article title');
+  await submissionBasic.validateJournalIsEmpty();
+
+  await submissionBasic.clickNextToGrants();
+
+  await submissionGrantsPage.selectGrant('Z0650001');
+  await submissionGrantsPage.clickNextToPolicies();
+
+  await submissionPoliciesPage.verifyJhuPolicy();
+  await submissionPoliciesPage.clickNextToRepositories();
+
+  await submissionRepositoriesPage.verifyRequiredRepository(
+    'JScholarship - SCANDINAVIAN BIOPHARMA'
   );
-  await t.expect(submissionsButton.exists).ok();
-  await t.click(submissionsButton);
 
-  await t.expect(currLocation()).eql(`${PASS_BASE_URL}/app/submissions`);
-
-  // Start new Submission
-  const startNewSubmissionButton = Selector(
-    '.ember-view.btn.btn-primary'
-  ).withAttribute('href', '/app/submissions/new');
-  await t.expect(startNewSubmissionButton.exists).ok();
-  await t.click(startNewSubmissionButton);
-
-  await t
-    .expect(currLocation())
-    .eql(`${PASS_BASE_URL}/app/submissions/new/basics`);
-
-  // do not enter a DOI and enter a title manually
-  const titleName = Selector('#title');
-  await t.expect(titleName().exists).ok();
-  await t.typeText(titleName, 'My article title', { paste: true });
-
-  // Check that the title and journal values have been filled in
-  await t.expect(titleName.value).eql('My article title');
-
-  // Check that the journal has not been filled in
-  const journalPlaceholder = Selector(
-    '.ember-power-select-placeholder'
-  ).withText('Journal');
-  await t.expect(journalPlaceholder.exists).ok();
-
-  // Go to Grants
-  const goToGrantsButton = Selector('.btn.btn-primary.pull-right.next');
-  await t.expect(goToGrantsButton.exists).ok();
-  await t.click(goToGrantsButton);
-
-  await t
-    .expect(currLocation())
-    .eql(`${PASS_BASE_URL}/app/submissions/new/grants`);
-
-  // Select a Grant
-  const nihGrant = Selector('#grants-selection-table a').withText('Z0650001');
-  await t.expect(nihGrant.exists).ok().click(nihGrant.parent(0).nextSibling(0));
-
-  const submittedGrant = Selector('table')
-    .withAttribute('data-test-submission-funding-table')
-    .child('tbody')
-    .child('tr')
-    .child('td')
-    .child('a')
-    .withText('Z0650001');
-  await t.expect(submittedGrant.exists).ok();
-
-  // Go to Policies
-  const goToPoliciesButton = Selector('button').withAttribute(
-    'data-test-workflow-grants-next'
-  );
-  await t.expect(goToPoliciesButton.exists).ok();
-  await t.click(goToPoliciesButton);
-
-  await t
-    .expect(currLocation())
-    .eql(`${PASS_BASE_URL}/app/submissions/new/policies`);
-
-  // Check that JHU policy exists
-  const jhuRepository = Selector('h3')
-    .withAttribute('data-test-policy-title')
-    .withText('Johns Hopkins University (JHU) Open Access Policy');
-  await t.expect(jhuRepository.exists).ok();
-
-  // Go to Repositories
-  const goToRepositoriesButton = Selector('button').withAttribute(
-    'data-test-workflow-policies-next'
-  );
-  await t.expect(goToRepositoriesButton.exists).ok();
-  await t.click(goToRepositoriesButton);
-
-  await t
-    .expect(currLocation())
-    .eql(`${PASS_BASE_URL}/app/submissions/new/repositories`);
-
-  // Check Required Repositories
-  const requiredRepositories = Selector('ul')
-    .withAttribute('data-test-workflow-repositories-required-list')
-    .child('li')
-    .withText('JScholarship - SCANDINAVIAN BIOPHARMA');
-  await t.expect(requiredRepositories.exists).ok();
-
-  // Go to Metadata
-  const goToMetadataButton = Selector('button').withAttribute(
-    'data-test-workflow-repositories-next'
-  );
-  await t.expect(goToMetadataButton.exists).ok();
-  await t.click(goToMetadataButton);
-
-  await t
-    .expect(currLocation())
-    .eql(`${PASS_BASE_URL}/app/submissions/new/metadata`);
+  await submissionRepositoriesPage.clickNextToMetadata();
 
   // Check Article Title
   const articleTitle = Selector('textarea').withAttribute('name', 'title');
