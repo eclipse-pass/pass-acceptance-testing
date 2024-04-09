@@ -17,6 +17,17 @@ class SubmissionMetadata {
     await t.expect(journalTitle.value).eql(expectedJournalTitle);
   }
 
+  async inputAuthor(authorName) {
+    const authorInput = Selector('input').withAttribute(
+      'name',
+      'authors_0_author'
+    );
+    await t
+      .expect(authorInput.exists)
+      .ok()
+      .typeText(authorInput, authorName, { paste: true, speed: 0.75 });
+  }
+
   async clickNextToFiles() {
     const goToFilesButton = Selector('.alpaca-form-button-Next');
     await t.expect(goToFilesButton.exists).ok();

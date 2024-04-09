@@ -62,7 +62,7 @@ test('can walk through an nih submission workflow and make a submission - base c
   await submissionReviewPage.clickSubmit();
 
   await submissionSubmitDialogPage.acceptJScholarship();
-  await submissionSubmitDialogPage.acceptPmc();
+  await submissionSubmitDialogPage.confirmDialog();
 
   await submissionThankYouPage.verify();
   await submissionThankYouPage.clickSubmissionLink();

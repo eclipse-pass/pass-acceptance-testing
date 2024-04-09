@@ -23,7 +23,7 @@ class SubmissionSubmitDialog {
     await t.click(nextButton);
   }
 
-  async acceptPmc() {
+  async confirmDialog() {
     const confirmButton = Selector('.swal2-confirm.swal2-styled').withText(
       'Confirm'
     );
