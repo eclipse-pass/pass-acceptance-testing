@@ -8,6 +8,8 @@
   "type": "module",
   "scripts": {
     "test": "./runtest.sh",
+    "testDeployment": "./rundeploymenttest.sh",
+    "testProdDeployment": "./run_prod_deploymenttest.sh",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
     "lint:check": "eslint .",

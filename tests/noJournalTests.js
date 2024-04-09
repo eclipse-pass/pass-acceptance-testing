@@ -12,9 +12,12 @@ import submissionSubmitDialogPage from './page_model/SubmissionSubmitDialog.js';
 import submissionThankYouPage from './page_model/SubmissionThankYou.js';
 import submissionDetailsPage from './page_model/SubmissionDetails.js';
 
-fixture`Acceptance Testing: No Journal`;
+fixture`Acceptance Testing: No Journal`.meta({
+  deploymentTest: 'true',
+  prodDeploymentTest: 'true',
+});
 
-test('can walk through an nih submission workflow and make a submission - without selecting a journal', async () => {
+test('can walk through a submission workflow and make a submission - without selecting a journal', async () => {
   // Log in
   login('nih-user');
 
