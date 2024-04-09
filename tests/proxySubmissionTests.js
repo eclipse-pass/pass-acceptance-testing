@@ -1,16 +1,15 @@
 import { fixture, Selector, test } from 'testcafe';
-import {
-  currLocation,
-  TIMEOUT_LENGTH,
-  login,
-  logout,
-  PASS_BASE_URL,
-} from './commonTest';
+import { currLocation, login, logout, PASS_BASE_URL } from './commonTest';
 import submissionsPage from './page_model/Submissions';
 import submissionBasic from './page_model/SubmissionBasic';
 import submissionGrantsPage from './page_model/SubmissionGrants';
 import submissionPoliciesPage from './page_model/SubmissionPolicies';
 import submissionRepositoriesPage from './page_model/SubmissionRepositories';
+import submissionMetadataPage from './page_model/SubmissionMetadata.js';
+import submissionFilesPage from './page_model/SubmissionFiles.js';
+import submissionReviewPage from './page_model/SubmissionReview.js';
+import submissionDetailsPage from './page_model/SubmissionDetails.js';
+import submissionThankYouPage from './page_model/SubmissionThankYou.js';
 
 fixture`Acceptance Testing: Proxy Submission`.afterEach(logout);
 
@@ -108,7 +107,6 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
   );
   await submissionBasic.validateJournal('The Analyst');
   await submissionBasic.validateTitleAndJournalReadOnly();
-
   await submissionBasic.clickNextToGrants();
 
   if (hasAccount) {
@@ -124,7 +122,6 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
         'Because the person you are submitting on behalf of is not yet in our system, PASS does not have information about his/her grant(s) and cannot associate this submission with a grant. Please click Next to continue.'
       );
   }
-
   await submissionGrantsPage.clickNextToPolicies();
 
   // Nothing to select here, move to Repositories page
@@ -136,76 +133,23 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
   } else {
     await submissionRepositoriesPage.verifyRequiredRepository('JScholarship');
   }
-
   await submissionRepositoriesPage.clickNextToMetadata();
 
-  // Check Article Title
-  const articleTitle = Selector('textarea').withAttribute('name', 'title');
-  await t
-    .expect(articleTitle.value)
-    .eql(
-      'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
-    );
-
-  // Check Journal Title
-  const journalTitle = Selector('input').withAttribute('name', 'journal-title');
-  await t.expect(journalTitle.value).eql('The Analyst');
-
-  // Go to Files
-  const goToFilesButton = Selector('.alpaca-form-button-Next');
-  await t.expect(goToFilesButton.exists).ok();
-  await t.click(goToFilesButton);
-
-  await t
-    .expect(currLocation())
-    .eql(`${PASS_BASE_URL}/app/submissions/new/files`);
-
-  await t.expect(Selector('div[data-test-foundmss-component]').exists).ok();
+  await submissionMetadataPage.verifyArticleTitle(
+    'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
+  );
+  await submissionMetadataPage.verifyJournalTitle('The Analyst');
+  await submissionMetadataPage.clickNextToFiles();
 
   // Upload no file here
-  const goToReviewButton = Selector('button').withAttribute(
-    'data-test-workflow-files-next'
+  await submissionFilesPage.clickNextToReviewNoFiles();
+
+  await submissionReviewPage.verifyTitle(
+    'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
   );
-  await t.expect(goToReviewButton.exists).ok();
-  await t.click(goToReviewButton);
-
-  const noManuscriptAlert = Selector('#swal2-title').withText(
-    'No manuscript present'
-  );
-  await t.expect(noManuscriptAlert.exists).ok();
-
-  const nextPageButton = Selector('.swal2-confirm').withText('OK');
-  await t.expect(nextPageButton.exists).ok();
-  await t.click(nextPageButton);
-
-  await t
-    .expect(currLocation())
-    .eql(`${PASS_BASE_URL}/app/submissions/new/review`);
-
-  // Go to Review
-  // Review Title
-  const reviewTitle = Selector('.mb-1').withAttribute(
-    'data-test-workflow-review-title'
-  );
-  await t
-    .expect(reviewTitle.innerText)
-    .eql(
-      'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
-    );
-
-  // Review DOI
-  const reviewDoi = Selector('.mb-1').withAttribute(
-    'data-test-workflow-review-doi'
-  );
-  await t.expect(reviewDoi.innerText).eql('10.1039/c7an01256j');
-
-  // Rf grants are present, review here
+  await submissionReviewPage.verifyDoi('10.1039/c7an01256j');
   if (hasAccount) {
-    const reviewGrants = Selector('ul')
-      .withAttribute('data-test-workflow-review-grant-list')
-      .child('li')
-      .withText('R01EY012124');
-    await t.expect(reviewGrants.innerText).contains('R01EY012124');
+    await submissionReviewPage.verifyGrants('R01EY012124');
   }
 
   // Review that this is a proxy submission
@@ -219,44 +163,20 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
     await t.expect(submitterComment.innerText).contains('John Moo');
   }
 
-  // Submit
-  const reviewSubmitButton = Selector('button').withAttribute(
-    'data-test-workflow-review-submit'
-  );
-  await t.expect(reviewSubmitButton.innerText).eql('Request approval');
-  await t.click(reviewSubmitButton);
+  await submissionReviewPage.clickSubmit();
 
-  // Thank You Page
-  const thankYouHeading = Selector('h1', {
-    timeout: TIMEOUT_LENGTH,
-  }).withText('Thank you!');
-  await t.expect(thankYouHeading.exists).ok();
+  await submissionThankYouPage.verify();
+  await submissionThankYouPage.clickSubmissionLink();
 
-  // Click to submittion detail for validation
-  const linkToSubmission = Selector('a').withText('here');
-  await t.expect(linkToSubmission.exists).ok();
-  await t.click(linkToSubmission);
-
-  // Submission heading
-  const submittedHeading = Selector('h5').withText(
+  await submissionDetailsPage.verifyTitle(
     'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
   );
-  await t.expect(submittedHeading.exists).ok();
-
-  // Submission DOI
-  const submittedDoi = Selector('p').withText('DOI: 10.1039/c7an01256j');
-  await t.expect(submittedDoi.exists).ok();
-
-  // Submission Status
-  const submissionStatus = Selector('span').withAttribute(
-    'tooltip',
+  await submissionDetailsPage.verifyDoi('10.1039/c7an01256j');
+  await submissionDetailsPage.verifySubmissionStatus(
     'This submission has been prepared on behalf of the designated submitter and is awaiting approval before being submitted.'
   );
-  await t.expect(submissionStatus.exists).ok();
-
-  // Grant status
+  await submissionDetailsPage.verifyRepository('JScholarship');
   if (hasAccount) {
-    const submissionGrants = Selector('li').withText('R01EY012124');
-    await t.expect(submissionGrants.exists).ok();
+    await submissionDetailsPage.verifyGrants('R01EY012124');
   }
 }

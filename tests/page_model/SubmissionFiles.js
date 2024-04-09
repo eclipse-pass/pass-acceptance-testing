@@ -16,7 +16,7 @@ class SubmissionFiles {
       .eql(fileName);
   }
 
-  async clickNextToReview() {
+  async clickNextButton() {
     const goToReviewButton = Selector('button').withAttribute(
       'data-test-workflow-files-next'
     );
@@ -25,6 +25,26 @@ class SubmissionFiles {
       .ok()
       .click(goToReviewButton)
       .skipJsErrors(false); // Re-enable JS Error checking
+  }
+
+  async clickNextToReview() {
+    await this.clickNextButton();
+    await t
+      .expect(currLocation())
+      .eql(`${PASS_BASE_URL}/app/submissions/new/review`);
+  }
+
+  async clickNextToReviewNoFiles() {
+    await this.clickNextButton();
+
+    const noManuscriptAlert = Selector('#swal2-title').withText(
+      'No manuscript present'
+    );
+    await t.expect(noManuscriptAlert.exists).ok();
+
+    const nextPageButton = Selector('.swal2-confirm').withText('OK');
+    await t.expect(nextPageButton.exists).ok();
+    await t.click(nextPageButton);
 
     await t
       .expect(currLocation())
