@@ -1,5 +1,6 @@
 import { fixture, test } from 'testcafe';
 import { login } from './commonTest';
+import dashboardPage from './page_model/Dashboard.js';
 import submissionsPage from './page_model/Submissions';
 import submissionBasicPage from './page_model/SubmissionBasic';
 import submissionGrantsPage from './page_model/SubmissionGrants';
@@ -16,8 +17,10 @@ fixture`Acceptance Testing: Base`.meta({ deploymentTest: 'true' });
 
 test('can walk through an nih submission workflow and make a submission - base case', async () => {
   // Log in
-  login('nih-user');
+  await login('nih-user');
 
+  await dashboardPage.verify();
+  await dashboardPage.clickSubmissions();
   await submissionsPage.startSubmission();
 
   await submissionBasicPage.inputDoi('10.1039/c7an01256j');
