@@ -10,15 +10,15 @@ import submissionFilesPage from './page_model/SubmissionFiles.js';
 import submissionReviewPage from './page_model/SubmissionReview.js';
 import submissionDetailsPage from './page_model/SubmissionDetails.js';
 import submissionThankYouPage from './page_model/SubmissionThankYou.js';
+import dashboardPage from './page_model/Dashboard.js';
 
 fixture`Acceptance Testing: Proxy Submission`.afterEach(logout);
 
 test('can walk through a proxy submission workflow and make a submission - with pass account', async (t) => {
-  // use role
-  // await t.useRole(userAdminSubmitter);
-  login('admin-submitter');
+  await login('admin-submitter');
 
-  // Start new Submission
+  await dashboardPage.verify();
+  await dashboardPage.clickSubmissions();
   await submissionsPage.startSubmission();
 
   // Select Proxy Submission button

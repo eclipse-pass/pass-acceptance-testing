@@ -11,6 +11,7 @@ import submissionReviewPage from './page_model/SubmissionReview.js';
 import submissionSubmitDialogPage from './page_model/SubmissionSubmitDialog.js';
 import submissionThankYouPage from './page_model/SubmissionThankYou.js';
 import submissionDetailsPage from './page_model/SubmissionDetails.js';
+import dashboardPage from './page_model/Dashboard.js';
 
 fixture`Acceptance Testing: No Journal`.meta({
   deploymentTest: 'true',
@@ -19,8 +20,10 @@ fixture`Acceptance Testing: No Journal`.meta({
 
 test('can walk through a submission workflow and make a submission - without selecting a journal', async () => {
   // Log in
-  login('nih-user');
+  await login('nih-user');
 
+  await dashboardPage.verify();
+  await dashboardPage.clickSubmissions();
   await submissionsPage.startSubmission();
 
   await submissionBasic.inputTitle('My article title');
