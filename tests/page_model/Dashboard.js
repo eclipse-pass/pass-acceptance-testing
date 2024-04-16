@@ -9,6 +9,7 @@ class Dashboard {
     this.submissionsLink = Selector('.nav-link.ember-view').withText(
       'Submissions'
     );
+    this.grantsLink = Selector('.nav-link.ember-view').withText('Grants');
   }
 
   async verify() {
@@ -19,6 +20,12 @@ class Dashboard {
     await t.expect(this.submissionsLink.exists).ok();
     await t.click(this.submissionsLink);
     await t.expect(currLocation()).eql(`${PASS_BASE_URL}/app/submissions`);
+  }
+
+  async clickGrants() {
+    await t.expect(this.grantsLink.exists).ok();
+    await t.click(this.grantsLink);
+    await t.expect(currLocation()).eql(`${PASS_BASE_URL}/app/grants`);
   }
 }
 

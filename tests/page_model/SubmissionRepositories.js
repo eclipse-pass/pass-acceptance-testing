@@ -13,6 +13,14 @@ class SubmissionRepositories {
     return repositories;
   }
 
+  async verifyRequiredRepositoryNotExist(repositoryName) {
+    const repositories = Selector('ul')
+      .withAttribute('data-test-workflow-repositories-required-list')
+      .child('li')
+      .withText(repositoryName);
+    await t.expect(repositories.exists).notOk();
+  }
+
   async verifyOptionalRepositorySelected(repositoryName) {
     const repositories = Selector('ul')
       .withAttribute('data-test-workflow-repositories-optional-list')

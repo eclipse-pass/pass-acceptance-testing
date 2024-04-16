@@ -8,6 +8,8 @@ class SubmissionBasic {
     this.journalName = Selector('.form-control').withAttribute(
       'data-test-journal-name-input'
     );
+    this.journalSelectTrigger = Selector('div.ember-basic-dropdown-trigger');
+    this.journalSelectInput = Selector('input.ember-power-select-search-input');
     this.goToGrantsButton = Selector('.btn.btn-primary.pull-right.next');
   }
 
@@ -24,6 +26,22 @@ class SubmissionBasic {
     await t.expect(this.titleName.exists).ok();
     await t.typeText(this.titleName, title, { paste: true });
     await t.expect(this.titleName.value).eql(title);
+  }
+
+  async selectJournal(journalName) {
+    await t.expect(this.journalSelectTrigger.exists).ok();
+    await t.click(this.journalSelectTrigger);
+    await t.expect(this.journalSelectInput.exists).ok();
+    await t.typeText(this.journalSelectInput, journalName, { paste: true });
+    const journalOption = Selector('li.ember-power-select-option', {
+      timeout: TIMEOUT_LENGTH,
+    }).withText(journalName);
+    await t.expect(journalOption.exists).ok();
+    await t.click(journalOption);
+    const journalSelectedItem = Selector('.ember-power-select-selected-item', {
+      timeout: TIMEOUT_LENGTH,
+    }).withText(journalName);
+    await t.expect(journalSelectedItem.exists).ok();
   }
 
   async validateTitle(expectedTitle) {

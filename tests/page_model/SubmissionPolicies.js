@@ -11,11 +11,18 @@ class SubmissionPolicies {
     await t.expect(currPolicy.checked).eql(true);
   }
 
-  async verifyJhuPolicy() {
+  async verifyPolicyExists(policyTitle) {
     const jhuRepository = Selector('h3')
       .withAttribute('data-test-policy-title')
-      .withText('Johns Hopkins University (JHU) Open Access Policy');
+      .withText(policyTitle);
     await t.expect(jhuRepository.exists).ok();
+  }
+
+  async verifyPolicyNotExists(policyTitle) {
+    const jhuRepository = Selector('h3')
+      .withAttribute('data-test-policy-title')
+      .withText(policyTitle);
+    await t.expect(jhuRepository.exists).notOk();
   }
 
   async clickNextToRepositories() {
