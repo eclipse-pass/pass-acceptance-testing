@@ -1,5 +1,5 @@
 import { fixture, test } from 'testcafe';
-import { login } from './commonTest';
+import { login, verifyDepositStatusIfNeeded } from './commonTest';
 import submissionsPage from './page_model/Submissions';
 import submissionBasicPage from './page_model/SubmissionBasic';
 import submissionGrantsPage from './page_model/SubmissionGrants';
@@ -67,4 +67,10 @@ test('can walk through a submission workflow and make a submission - without sel
   );
   await submissionDetailsPage.verifyGrants('TEST_E2E_AWD_NUM');
   await submissionDetailsPage.verifyRepository('JScholarship');
+
+  await verifyDepositStatusIfNeeded(
+    'PASS_E2E_TEST_NO_JOURNAL',
+    'JScholarship',
+    'completed'
+  );
 }).disablePageCaching;

@@ -37,6 +37,13 @@ class SubmissionDetails {
       Selector('a').withText(expectedRepo);
     await t.expect(submissionRepositoryJScholarship.exists).notOk();
   }
+
+  async getDepositStatus(depositStatus, repositoryName) {
+    const depositStatusDiv = Selector('div.card-body').withText(
+      repositoryName + '\n\nDeposit status:\n ' + depositStatus
+    );
+    return await depositStatusDiv.exists;
+  }
 }
 
 export default new SubmissionDetails();
