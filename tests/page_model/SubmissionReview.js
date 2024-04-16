@@ -3,11 +3,18 @@ import { t, Selector } from 'testcafe';
 class SubmissionReview {
   constructor() {}
 
-  async verifyTitle(exptectedTitle) {
+  async verifyTitle(expectedTitle) {
     const reviewTitle = Selector('.mb-1').withAttribute(
       'data-test-workflow-review-title'
     );
-    await t.expect(reviewTitle.innerText).eql(exptectedTitle);
+    await t.expect(reviewTitle.innerText).eql(expectedTitle);
+  }
+
+  async verifyJournal(expectedJournal) {
+    const reviewJournal = Selector('ul.list-unstyled')
+      .child('li')
+      .withText('Journal title : ' + expectedJournal);
+    await t.expect(reviewJournal.exists).ok();
   }
 
   async verifyDoi(expectedDoi) {

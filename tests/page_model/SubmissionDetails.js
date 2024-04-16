@@ -31,6 +31,12 @@ class SubmissionDetails {
       Selector('a').withText(expectedRepo);
     await t.expect(submissionRepositoryJScholarship.exists).ok();
   }
+
+  async verifyRepositoryNotExist(expectedRepo) {
+    const submissionRepositoryJScholarship =
+      Selector('a').withText(expectedRepo);
+    await t.expect(submissionRepositoryJScholarship.exists).notOk();
+  }
 }
 
 export default new SubmissionDetails();

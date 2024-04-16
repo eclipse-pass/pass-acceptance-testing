@@ -13,7 +13,7 @@ import submissionSubmitDialogPage from './page_model/SubmissionSubmitDialog';
 import submissionThankYouPage from './page_model/SubmissionThankYou';
 import submissionDetailsPage from './page_model/SubmissionDetails';
 
-fixture`Acceptance Testing: Base`.meta({ deploymentTest: 'true' });
+fixture`Acceptance Testing: Base Submission`;
 
 test('can walk through an nih submission workflow and make a submission - base case', async () => {
   // Log in

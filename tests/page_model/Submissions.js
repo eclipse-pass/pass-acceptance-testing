@@ -3,9 +3,14 @@ import { currLocation, PASS_BASE_URL } from '../commonTest.js';
 
 class Submissions {
   constructor() {
+    this.submissionsHeader = Selector('h1').withText('Submissions');
     this.startNewSubmissionButton = Selector(
       '.ember-view.btn.btn-primary'
     ).withAttribute('href', '/app/submissions/new');
+  }
+
+  async verifySubmissionsHeader() {
+    await t.expect(this.submissionsHeader.exists).ok();
   }
 
   async startSubmission() {
