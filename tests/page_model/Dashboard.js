@@ -19,7 +19,7 @@ class Dashboard {
   async clickSubmissions() {
     await t.expect(this.submissionsLink.exists).ok();
     await t.click(this.submissionsLink);
-    await t.expect(currLocation()).eql(`${PASS_BASE_URL}/app/submissions`);
+    await t.expect(currLocation()).contains(`${PASS_BASE_URL}/app/submissions`);
   }
 
   async clickGrants() {

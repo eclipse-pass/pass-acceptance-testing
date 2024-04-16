@@ -1,5 +1,5 @@
 import { fixture, test } from 'testcafe';
-import { login } from './commonTest';
+import { login, verifyDepositStatusIfNeeded } from './commonTest';
 import dashboardPage from './page_model/Dashboard.js';
 import submissionsPage from './page_model/Submissions';
 import submissionBasicPage from './page_model/SubmissionBasic';
@@ -77,5 +77,9 @@ test('can walk through an submission workflow and make a submission with journal
   await submissionDetailsPage.verifyRepository('JScholarship');
   await submissionDetailsPage.verifyRepositoryNotExist('PubMed Central');
 
-  // TODO if deployment tests, wait for deposit status to flip on jscholarship
+  await verifyDepositStatusIfNeeded(
+    'PASS_E2E_TEST_SUBMISSION_JOURNAL',
+    'JScholarship',
+    'completed'
+  );
 }).disablePageCaching;
