@@ -60,9 +60,8 @@ export async function logout() {
     .click(Selector('#user-menu a').withText('Logout'));
 }
 
-export async function verifyDepositStatusIfNeeded(
+export async function verifyJScholarshipDepositStatusIfNeeded(
   submissionTitle,
-  repositoryName,
   depositStatus
 ) {
   if (IS_DEPLOYMENT_TEST) {
@@ -74,17 +73,20 @@ export async function verifyDepositStatusIfNeeded(
       await submissionDetailsPage.verifyTitle(submissionTitle);
       depositCompleted = await submissionDetailsPage.getDepositStatus(
         depositStatus,
-        repositoryName
+        'JScholarship'
       );
-      if (!depositCompleted) {
-        console.log(`Waiting to verify ${repositoryName} Deposit Status...`);
+      if (depositCompleted) {
+        break;
+      } else {
+        console.log('Waiting to verify JScholarship Deposit Status...');
         depositStatusRetryCounter++;
         await new Promise((r) => setTimeout(r, 10000));
       }
     }
     await t
       .expect(depositCompleted)
-      .ok(`${repositoryName} Deposit Status is not ${depositStatus}`);
+      .ok(`JScholarship Deposit Status is not ${depositStatus}`);
+    await submissionDetailsPage.verifyJScholarshipManuscriptIdExists();
   }
 }
 
