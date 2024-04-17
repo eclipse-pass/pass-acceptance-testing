@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { fixture, test } from 'testcafe';
-import { login, verifyDepositStatusIfNeeded } from './commonTest';
+import { login, verifyJScholarshipDepositStatusIfNeeded } from './commonTest';
 import dashboardPage from './page_model/Dashboard.js';
 import submissionsPage from './page_model/Submissions';
 import submissionBasicPage from './page_model/SubmissionBasic';
@@ -91,9 +91,5 @@ test('can walk through an submission workflow and make a submission with journal
   await submissionDetailsPage.verifyRepository('JScholarship');
   await submissionDetailsPage.verifyRepositoryNotExist('PubMed Central');
 
-  await verifyDepositStatusIfNeeded(
-    submissionTitle,
-    'JScholarship',
-    'completed'
-  );
+  await verifyJScholarshipDepositStatusIfNeeded(submissionTitle, 'complete');
 }).disablePageCaching;

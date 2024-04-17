@@ -55,9 +55,18 @@ class SubmissionDetails {
 
   async getDepositStatus(depositStatus, repositoryName) {
     const depositStatusDiv = Selector('div.card-body').withText(
-      repositoryName + '\n\nDeposit status:\n ' + depositStatus
+      new RegExp(
+        `${repositoryName}[\\s\\S]*Deposit status:[\\s\\S]*${depositStatus}`
+      )
     );
     return await depositStatusDiv.exists;
+  }
+
+  async verifyJScholarshipManuscriptIdExists() {
+    const manuscriptIdDiv = Selector('div').withText(
+      /JScholarship[\s\S]*Manuscript ID[\s\S]*http[\s\S]*handle[\s\S]*/
+    );
+    await t.expect(manuscriptIdDiv.exists).ok();
   }
 }
 
