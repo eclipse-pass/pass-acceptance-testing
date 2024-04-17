@@ -39,7 +39,8 @@ test('can walk through an submission workflow and make a submission with journal
   await dashboardPage.clickSubmissions();
   await submissionsPage.startSubmission();
 
-  await submissionBasicPage.inputTitle('PASS_E2E_TEST_SUBMISSION_JOURNAL');
+  const submissionTitle = `PASS_E2E_TEST_SUBMISSION_JOURNAL:${new Date().toString()}`;
+  await submissionBasicPage.inputTitle(submissionTitle);
   await submissionBasicPage.selectJournal('PASS_E2E_TEST_JOURNAL');
   await submissionBasicPage.clickNextToGrants();
 
@@ -61,9 +62,7 @@ test('can walk through an submission workflow and make a submission with journal
 
   await submissionRepositoriesPage.clickNextToMetadata();
 
-  await submissionMetadataPage.verifyArticleTitle(
-    'PASS_E2E_TEST_SUBMISSION_JOURNAL'
-  );
+  await submissionMetadataPage.verifyArticleTitle(submissionTitle);
   await submissionMetadataPage.verifyJournalTitle('PASS_E2E_TEST_JOURNAL');
   await submissionMetadataPage.inputAuthor('PASS_E2E_TEST_AUTHOR');
 
@@ -72,7 +71,7 @@ test('can walk through an submission workflow and make a submission with journal
   await submissionFilesPage.uploadFile('my-submission.pdf');
   await submissionFilesPage.clickNextToReview();
 
-  await submissionReviewPage.verifyTitle('PASS_E2E_TEST_SUBMISSION_JOURNAL');
+  await submissionReviewPage.verifyTitle(submissionTitle);
   await submissionReviewPage.verifyJournal('PASS_E2E_TEST_JOURNAL');
   await submissionReviewPage.verifyGrants('TEST_E2E_AWD_NUM');
   await submissionReviewPage.verifyUploadedFiles('my-submission.pdf');
@@ -84,7 +83,7 @@ test('can walk through an submission workflow and make a submission with journal
   await submissionThankYouPage.verify();
   await submissionThankYouPage.clickSubmissionLink();
 
-  await submissionDetailsPage.verifyTitle('PASS_E2E_TEST_SUBMISSION_JOURNAL');
+  await submissionDetailsPage.verifyTitle(submissionTitle);
   await submissionDetailsPage.verifySubmissionStatus(
     'The submission was successfully created. PASS will deposit this work into the target repositories and provide a link and feedback where available'
   );
@@ -93,7 +92,7 @@ test('can walk through an submission workflow and make a submission with journal
   await submissionDetailsPage.verifyRepositoryNotExist('PubMed Central');
 
   await verifyDepositStatusIfNeeded(
-    'PASS_E2E_TEST_SUBMISSION_JOURNAL',
+    submissionTitle,
     'JScholarship',
     'completed'
   );

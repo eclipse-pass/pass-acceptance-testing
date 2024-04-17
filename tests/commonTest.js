@@ -77,16 +77,14 @@ export async function verifyDepositStatusIfNeeded(
         repositoryName
       );
       if (!depositCompleted) {
-        console.log(
-          'Waiting to verify ' + repositoryName + ' Deposit Status...'
-        );
+        console.log(`Waiting to verify ${repositoryName} Deposit Status...`);
         depositStatusRetryCounter++;
         await new Promise((r) => setTimeout(r, 10000));
       }
     }
     await t
       .expect(depositCompleted)
-      .ok(repositoryName + ' Deposit Status is not ' + depositStatus);
+      .ok(`${repositoryName} Deposit Status is not ${depositStatus}`);
   }
 }
 

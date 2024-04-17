@@ -40,7 +40,8 @@ test('can walk through a submission workflow and make a submission - without sel
   await dashboardPage.clickSubmissions();
   await submissionsPage.startSubmission();
 
-  await submissionBasicPage.inputTitle('PASS_E2E_TEST_NO_JOURNAL');
+  const submissionTitle = `PASS_E2E_TEST_NO_JOURNAL:${new Date().toString()}`;
+  await submissionBasicPage.inputTitle(submissionTitle);
   await submissionBasicPage.validateJournalIsEmpty();
   await submissionBasicPage.clickNextToGrants();
 
@@ -57,7 +58,7 @@ test('can walk through a submission workflow and make a submission - without sel
   );
   await submissionRepositoriesPage.clickNextToMetadata();
 
-  await submissionMetadataPage.verifyArticleTitle('PASS_E2E_TEST_NO_JOURNAL');
+  await submissionMetadataPage.verifyArticleTitle(submissionTitle);
   await submissionMetadataPage.verifyJournalTitle('');
   await submissionMetadataPage.inputAuthor('PASS_E2E_TEST_AUTHOR');
   await submissionMetadataPage.clickNextToFiles();
@@ -65,7 +66,7 @@ test('can walk through a submission workflow and make a submission - without sel
   await submissionFilesPage.uploadFile('my-submission.pdf');
   await submissionFilesPage.clickNextToReview();
 
-  await submissionReviewPage.verifyTitle('PASS_E2E_TEST_NO_JOURNAL');
+  await submissionReviewPage.verifyTitle(submissionTitle);
   await submissionReviewPage.verifyGrants('TEST_E2E_AWD_NUM');
   await submissionReviewPage.verifyUploadedFiles('my-submission.pdf');
   await submissionReviewPage.clickSubmit();
@@ -76,7 +77,7 @@ test('can walk through a submission workflow and make a submission - without sel
   await submissionThankYouPage.verify();
   await submissionThankYouPage.clickSubmissionLink();
 
-  await submissionDetailsPage.verifyTitle('PASS_E2E_TEST_NO_JOURNAL');
+  await submissionDetailsPage.verifyTitle(submissionTitle);
   await submissionDetailsPage.verifySubmissionStatus(
     'The submission was successfully created. PASS will deposit this work into the target repositories and provide a link and feedback where available'
   );
@@ -84,7 +85,7 @@ test('can walk through a submission workflow and make a submission - without sel
   await submissionDetailsPage.verifyRepository('JScholarship');
 
   await verifyDepositStatusIfNeeded(
-    'PASS_E2E_TEST_NO_JOURNAL',
+    submissionTitle,
     'JScholarship',
     'completed'
   );
