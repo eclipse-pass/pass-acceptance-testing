@@ -1,6 +1,6 @@
 {
   "name": "pass-acceptance-testing",
-  "version": "1.6.0-SNAPSHOT",
+  "version": "1.6.0",
   "description": "Smoke testing for the PASS application",
   "repository": "https://github.com/eclipse-pass/pass-acceptance-testing.git",
   "author": "",
@@ -22,8 +22,8 @@
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1",
     "minimist": "^1.2.8",
+    "prettier": "^2.7.1",
     "testcafe": "3.3.0"
   },
   "husky": {
