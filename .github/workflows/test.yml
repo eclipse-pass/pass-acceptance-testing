@@ -2,6 +2,10 @@ name: test
 
 on:
   workflow_dispatch:
+    inputs:
+      test-ref:
+        description: 'Ref (tag/branch/SHA)'
+        default: 'main'
   pull_request:
     branches:
       - 'main'
@@ -20,3 +24,4 @@ jobs:
         uses: ./.github/actions/acceptance-test
         with:
           timeouts: $TIMEOUT_LENGTH
+          test-ref: ${{ inputs.test-ref }}
