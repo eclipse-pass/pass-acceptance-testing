@@ -10,7 +10,7 @@ on:
     branches:
       - 'main'
 
-run-name: Run acceptance tests::Ref=${{ inputs.test-ref }}
+run-name: Run acceptance tests::Ref=${{ github.event_name == 'pull_request' && 'PR' || inputs.test-ref }}
 
 env:
   TIMEOUT_LENGTH: 120000
@@ -26,4 +26,4 @@ jobs:
         uses: ./.github/actions/acceptance-test
         with:
           timeouts: $TIMEOUT_LENGTH
-          test-ref: ${{ inputs.test-ref }}
+          test-ref: ${{ github.event_name == 'pull_request' && '' || inputs.test-ref }}
