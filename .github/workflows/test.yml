@@ -10,6 +10,8 @@ on:
     branches:
       - 'main'
 
+run-name: Run tests::Ref=${{ inputs.test-ref }}
+
 env:
   TIMEOUT_LENGTH: 120000
 
