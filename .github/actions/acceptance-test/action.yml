@@ -9,6 +9,9 @@ inputs:
   pullimages:
     description: 'Image pull policy (always|missing|never) [default: always]'
     default: 'always'
+  test-ref:
+    description: 'Ref (tag/branch/SHA)'
+    default: 'main'
 
 runs:
   using: composite
@@ -22,12 +25,14 @@ runs:
       with:
         repository: eclipse-pass/pass-docker
         path: pass-docker
+        ref: ${{ inputs.test-ref }}
 
     - name: Checkout pass-acceptance-testing
       uses: actions/checkout@v3
       with:
         repository: eclipse-pass/pass-acceptance-testing
         path: pass-acceptance-testing
+        ref: ${{ inputs.test-ref }}
 
     - name: Run pass-docker
       shell: bash
