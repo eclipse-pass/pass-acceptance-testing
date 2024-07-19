@@ -41,9 +41,7 @@ class Submissions {
       Selector('td.title-column a').withText(submissionTitle);
     await t.expect(submissionLink.exists).ok();
     await t.click(submissionLink);
-    await t
-      .expect(currLocation())
-      .contains(`${PASS_BASE_URL}/app/submissions/`);
+    await t.expect(currLocation()).contains(`${PASS_BASE_URL}/app/submissions`);
   }
 }
 
