@@ -65,6 +65,18 @@ class SubmissionFiles {
       .expect(currLocation())
       .eql(`${PASS_BASE_URL}/app/submissions/new/review`);
   }
+
+  async verifyOAManuscriptUrl(expectedUrl) {
+    const manuscriptUrl = Selector('span.pl-2').withText(expectedUrl);
+    await t.expect(manuscriptUrl.innerText).contains(expectedUrl);
+  }
+
+  async verifyOAManuscriptsNotExists() {
+    const oaManuFound = Selector('p.text-muted').withText(
+      'We found the following OA copies of your manuscript/article.'
+    );
+    await t.expect(oaManuFound.exists).notOk();
+  }
 }
 
 export default new SubmissionFiles();

@@ -156,6 +156,9 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
   await submissionMetadataPage.verifyJournalTitle('The Analyst');
   await submissionMetadataPage.clickNextToFiles();
 
+  await submissionFilesPage.verifyOAManuscriptUrl(
+    'https://europepmc.org/articles/pmc6759371?pdf=render'
+  );
   // Upload no file here
   await submissionFilesPage.clickNextToReviewNoFiles();
 

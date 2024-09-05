@@ -68,6 +68,9 @@ test('can walk through an nih submission workflow and make a submission - base c
 
   await submissionMetadataPage.clickNextToFiles();
 
+  await submissionFilesPage.verifyOAManuscriptUrl(
+    'https://europepmc.org/articles/pmc6759371?pdf=render'
+  );
   await submissionFilesPage.uploadFile('my-submission.pdf');
   await submissionFilesPage.clickNextToReview();
 
