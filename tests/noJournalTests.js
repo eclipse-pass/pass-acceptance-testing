@@ -63,6 +63,7 @@ test('can walk through a submission workflow and make a submission - without sel
   await submissionMetadataPage.inputAuthor('PASS_E2E_TEST_AUTHOR');
   await submissionMetadataPage.clickNextToFiles();
 
+  await submissionFilesPage.verifyOAManuscriptsNotExists();
   await submissionFilesPage.uploadFile('my-submission.pdf');
   await submissionFilesPage.clickNextToReview();
 

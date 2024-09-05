@@ -68,6 +68,7 @@ test('can walk through an submission workflow and make a submission with journal
 
   await submissionMetadataPage.clickNextToFiles();
 
+  await submissionFilesPage.verifyOAManuscriptsNotExists();
   await submissionFilesPage.uploadFile('my-submission.pdf');
   await submissionFilesPage.clickNextToReview();
 
