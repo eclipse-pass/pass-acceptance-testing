@@ -40,7 +40,7 @@ async function loginLocal(usr) {
     .navigateTo(LOGIN_URL)
     .typeText('#username', usr)
     .typeText('#password', 'moo')
-    .click('.form-element.form-button');
+    .click('button');
 }
 
 async function loginSsoMs() {
