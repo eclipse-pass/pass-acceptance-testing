@@ -1716,6 +1716,11 @@ device-specs@^1.0.0:
   resolved "https://registry.yarnpkg.com/device-specs/-/device-specs-1.0.0.tgz#47b54577b9b159118bbb0a175177d0aa9c50a9c9"
   integrity sha512-fYXbFSeilT7bnKWFi4OERSPHdtaEoDGn4aUhV5Nly6/I+Tp6JZ/6Icmd7LVIF5euyodGpxz2e/bfUmDnIdSIDw==
 
+devtools-protocol@0.0.1109433:
+  version "0.0.1109433"
+  resolved "https://registry.yarnpkg.com/devtools-protocol/-/devtools-protocol-0.0.1109433.tgz#94f2a8cb05d3d80701e4f5ec99a48f2f231ac85c"
+  integrity sha512-w1Eqih66egbSr2eOoGZ+NsdF7HdxmKDo3pKFBySEGsmVvwWWNXzNCDcKrbFnd23Jf7kH1M806OfelXwu+Jk11g==
+
 diff@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/diff/-/diff-4.0.2.tgz#60f3aecb89d5fae520c11aa19efc2bb982aade7d"
@@ -3790,10 +3795,10 @@ testcafe-selector-generator@^0.1.0:
   resolved "https://registry.yarnpkg.com/testcafe-selector-generator/-/testcafe-selector-generator-0.1.0.tgz#852c86f71565e5d9320da625c2260d040cbed786"
   integrity sha512-MTw+RigHsEYmFgzUFNErDxui1nTYUk6nm2bmfacQiKPdhJ9AHW/wue4J/l44mhN8x3E8NgOUkHHOI+1TDFXiLQ==
 
-testcafe@3.7.0-rc.2:
-  version "3.7.0-rc.2"
-  resolved "https://registry.yarnpkg.com/testcafe/-/testcafe-3.7.0-rc.2.tgz#e79ceb89f70018322f4af22f713b20ee964cf8b4"
-  integrity sha512-+7SaKtXFOdtLNnjpWvoQ4jXP4GOyYD4rHY4Bm2GW+TYx3s+/PVlEv3AwM7Kmb4W4cLDtnN1EtCDIAtrJ+Y7fTw==
+testcafe@3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/testcafe/-/testcafe-3.7.0.tgz#2fddf5093029062653f7feaf25c0e2f6110ad78e"
+  integrity sha512-e77yuzX/1eSqb6ctE0oW+PJbgsA975Ui8xYiVAFTQjZnt9oZixB7gEgbwRdIls5EEWmtcxJ5tvqTm1rPBsrOvA==
   dependencies:
     "@babel/core" "^7.23.2"
     "@babel/plugin-proposal-decorators" "^7.23.2"
@@ -3830,6 +3835,7 @@ testcafe@3.7.0-rc.2:
     dedent "^0.4.0"
     del "^3.0.0"
     device-specs "^1.0.0"
+    devtools-protocol "0.0.1109433"
     diff "^4.0.2"
     elegant-spinner "^1.0.1"
     email-validator "^2.0.4"
