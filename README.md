@@ -1,3 +1,5 @@
+# PASS Acceptance Testing
+
 PASS Acceptance Testing is a suite of acceptance and smoke tests for the [PASS application](https://github.com/eclipse-pass).
 It utilizes [TestCafe](https://testcafe.io/) to define tests to be run against an instance of PASS.
 
