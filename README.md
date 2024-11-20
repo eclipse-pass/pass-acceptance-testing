@@ -12,4 +12,4 @@ A full list of all the Eclipse PASS projects can be found in the PASS Main repos
 
 # License
 
-PASS Docker is Open Source software released under the [Apache 2.0 license](LICENSE).
+PASS Acceptance Testing is Open Source software released under the [Apache 2.0 license](LICENSE).
