@@ -1,4 +1,4 @@
-# PASS Acceptance Testing ![PASS Acceptance Testing](https://github.com/eclipse-pass/pass-acceptance-testing/actions/workflows/release.yml/badge.svg)
+# PASS Acceptance Testing ![PASS Acceptance Testing](https://github.com/eclipse-pass/pass-acceptance-testing/actions/workflows/test.yml/badge.svg)
 
 PASS Acceptance Testing is a suite of acceptance and smoke tests for the [PASS application](https://github.com/eclipse-pass).
 It utilizes [TestCafe](https://testcafe.io/) to define tests to be run against an instance of PASS.
