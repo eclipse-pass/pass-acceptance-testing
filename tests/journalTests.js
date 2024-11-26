@@ -65,6 +65,7 @@ test('can walk through an submission workflow and make a submission with journal
   await submissionMetadataPage.verifyArticleTitle(submissionTitle);
   await submissionMetadataPage.verifyJournalTitle('PASS_E2E_TEST_JOURNAL');
   await submissionMetadataPage.inputAuthor('PASS_E2E_TEST_AUTHOR');
+  await submissionMetadataPage.inputPublicationDate('05/02/2010');
 
   await submissionMetadataPage.clickNextToFiles();
 
