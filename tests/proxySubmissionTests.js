@@ -154,6 +154,8 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
     'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
   );
   await submissionMetadataPage.verifyJournalTitle('The Analyst');
+  await submissionMetadataPage.inputPublicationDate('05/02/2010');
+
   await submissionMetadataPage.clickNextToFiles();
 
   await submissionFilesPage.verifyOAManuscriptUrl(
