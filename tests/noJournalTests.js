@@ -61,6 +61,7 @@ test('can walk through a submission workflow and make a submission - without sel
   await submissionMetadataPage.verifyArticleTitle(submissionTitle);
   await submissionMetadataPage.verifyJournalTitle('');
   await submissionMetadataPage.inputAuthor('PASS_E2E_TEST_AUTHOR');
+  await submissionMetadataPage.inputPublicationDate('05/02/2010');
   await submissionMetadataPage.clickNextToFiles();
 
   await submissionFilesPage.verifyOAManuscriptsNotExists();
