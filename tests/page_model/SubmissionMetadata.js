@@ -51,11 +51,8 @@ class SubmissionMetadata {
     await t
       .expect(publicationDateInput.exists)
       .ok()
-      .typeText(publicationDateInput, date, {
-        paste: false,
-        caretPos: 0,
-        speed: 0.1,
-      });
+      .click(publicationDateInput)
+      .pressKey(date.split('').join(' '));
   }
 
   async clickNextToFiles() {
