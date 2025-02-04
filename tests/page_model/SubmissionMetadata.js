@@ -43,6 +43,18 @@ class SubmissionMetadata {
       .typeText(authorInput, authorName, { paste: true, speed: 0.75 });
   }
 
+  async inputPublicationDate(date) {
+    const publicationDateInput = Selector('input').withAttribute(
+      'name',
+      'publicationDate'
+    );
+    await t
+      .expect(publicationDateInput.exists)
+      .ok()
+      .click(publicationDateInput)
+      .pressKey(date.split('').join(' '));
+  }
+
   async clickNextToFiles() {
     const goToFilesButton = Selector('.alpaca-form-button-Next');
     await t.expect(goToFilesButton.exists).ok();
