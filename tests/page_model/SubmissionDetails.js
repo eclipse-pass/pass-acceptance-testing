@@ -64,7 +64,7 @@ class SubmissionDetails {
 
   async verifyJScholarshipManuscriptIdExists() {
     const manuscriptIdDiv = Selector('div').withText(
-      /JScholarship[\s\S]*Manuscript ID[\s\S]*http[\s\S]*items[\s\S]*/
+      /JScholarship[\s\S]*Manuscript ID[\s\S]*http[\s\S]*(items|handle)[\s\S]*/
     );
     await t.expect(manuscriptIdDiv.exists).ok();
   }
