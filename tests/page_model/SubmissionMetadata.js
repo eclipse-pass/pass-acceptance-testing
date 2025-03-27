@@ -20,33 +20,31 @@ class SubmissionMetadata {
   constructor() {}
 
   async verifyArticleTitle(expectedArticleTitle) {
-    const articleTitle = Selector('textarea').withAttribute('name', 'title');
+    const articleTitle = Selector('div[data-name=title] input');
     await t.expect(articleTitle.value).eql(expectedArticleTitle);
   }
 
   async verifyJournalTitle(expectedJournalTitle) {
-    const journalTitle = Selector('input').withAttribute(
-      'name',
-      'journal-title'
-    );
+    const journalTitle = Selector('div[data-name=journal-title] input');
     await t.expect(journalTitle.value).eql(expectedJournalTitle);
   }
 
   async inputAuthor(authorName) {
-    const authorInput = Selector('input').withAttribute(
-      'name',
-      'authors_0_author'
-    );
+    const createAuthorButton = Selector('div[data-name=authors] button');
+    const authorInput = Selector('div[data-name=author] input');
+
     await t
+      .expect(createAuthorButton.exists)
+      .ok()
+      .click(createAuthorButton)
       .expect(authorInput.exists)
       .ok()
       .typeText(authorInput, authorName, { paste: true, speed: 0.75 });
   }
 
   async inputPublicationDate(date) {
-    const publicationDateInput = Selector('input').withAttribute(
-      'name',
-      'publicationDate'
+    const publicationDateInput = Selector(
+      'div[data-name=publicationDate] input'
     );
     await t
       .expect(publicationDateInput.exists)
@@ -56,7 +54,7 @@ class SubmissionMetadata {
   }
 
   async clickNextToFiles() {
-    const goToFilesButton = Selector('.alpaca-form-button-Next');
+    const goToFilesButton = Selector('input[title=Complete]');
     await t.expect(goToFilesButton.exists).ok();
     await t.click(goToFilesButton);
     await t

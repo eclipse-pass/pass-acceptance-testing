@@ -65,7 +65,6 @@ test('can walk through an nih submission workflow and make a submission - base c
     'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
   );
   await submissionMetadataPage.verifyJournalTitle('The Analyst');
-  await submissionMetadataPage.inputPublicationDate('05/02/2010');
 
   await submissionMetadataPage.clickNextToFiles();
 
