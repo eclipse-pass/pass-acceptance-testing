@@ -28,7 +28,7 @@ class SubmissionReview {
   async verifyJournal(expectedJournal) {
     const reviewJournal = Selector('ul.list-unstyled')
       .child('li')
-      .withText('Journal title : ' + expectedJournal);
+      .withText('Journal Title : ' + expectedJournal);
     await t.expect(reviewJournal.exists).ok();
   }
 
