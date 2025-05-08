@@ -27,7 +27,7 @@ class SubmissionThankYou {
     const linkToSubmission = Selector('a').withText('here');
     await t.expect(linkToSubmission.exists).ok();
     await t.click(linkToSubmission);
-    const submissionDetailsBody = Selector('h2', {
+    const submissionDetailsBody = Selector('h1', {
       timeout: TIMEOUT_LENGTH,
     }).withText('Submission Detail');
     await t.expect(submissionDetailsBody.exists).ok();

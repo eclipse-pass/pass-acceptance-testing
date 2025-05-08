@@ -57,7 +57,7 @@ async function loginSsoMs() {
 export async function logout() {
   return await t
     .click('#user-menu-name') // Open the app menu to make logout btn visible
-    .click(Selector('#user-menu a').withText('Logout'));
+    .click(Selector('a.dropdown-item').withText('Logout'));
 }
 
 export async function verifyJScholarshipDepositStatusIfNeeded(
