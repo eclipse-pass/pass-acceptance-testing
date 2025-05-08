@@ -54,7 +54,10 @@ class SubmissionMetadata {
   }
 
   async clickNextToFiles() {
-    const goToFilesButton = Selector('input[title=Complete]');
+    const goToFilesButton = Selector('button').withAttribute(
+      'data-test-workflow-metadata-next'
+    );
+
     await t.expect(goToFilesButton.exists).ok();
     await t.click(goToFilesButton);
     await t
