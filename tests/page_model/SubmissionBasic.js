@@ -25,7 +25,6 @@ class SubmissionBasic {
     );
     this.journalSelectTrigger = Selector('div.ember-basic-dropdown-trigger');
     this.journalSelectInput = Selector('input.ember-power-select-search-input');
-    this.goToGrantsButton = Selector('.btn.btn-primary.pull-right.next');
   }
 
   async inputDoi(doi) {
@@ -84,8 +83,11 @@ class SubmissionBasic {
   }
 
   async clickNextToGrants() {
-    await t.expect(this.goToGrantsButton.exists).ok();
-    await t.click(this.goToGrantsButton);
+    const goToGrantsButton = Selector('button').withAttribute(
+      'data-test-workflow-basics-next'
+    );
+    await t.expect(goToGrantsButton.exists).ok();
+    await t.click(goToGrantsButton, { speed: 0.5 });
     await t
       .expect(currLocation())
       .eql(`${PASS_BASE_URL}/app/submissions/new/grants`);
