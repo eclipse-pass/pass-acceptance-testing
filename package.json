@@ -1,6 +1,6 @@
 {
   "name": "pass-acceptance-testing",
-  "version": "2.2.0-RC1",
+  "version": "2.2.0-SNAPSHOT",
   "description": "Smoke testing for the PASS application",
   "repository": "https://github.com/eclipse-pass/pass-acceptance-testing.git",
   "author": "",
