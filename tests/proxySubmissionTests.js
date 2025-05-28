@@ -116,11 +116,13 @@ test('can walk through a proxy submission workflow and make a submission - witho
 
 // t should be the test's promise, hasAccount should be a Bool
 async function walkThroughSubmissionFlow(t, hasAccount) {
-  await submissionBasic.inputDoi('10.1039/c7an01256j');
+  await submissionBasic.inputDoi('10.1086/655938');
   await submissionBasic.validateTitle(
-    'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
+    'Achieving Better Than 1 Minute Accuracy in the Heliocentric and Barycentric Julian Dates'
   );
-  await submissionBasic.validateJournal('The Analyst');
+  await submissionBasic.validateJournal(
+    'Publications of the Astronomical Society of the Pacific'
+  );
   await submissionBasic.validateTitleAndJournalReadOnly();
   await submissionBasic.clickNextToGrants();
 
@@ -151,23 +153,25 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
   await submissionRepositoriesPage.clickNextToMetadata();
 
   await submissionMetadataPage.verifyArticleTitle(
-    'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
+    'Achieving Better Than 1 Minute Accuracy in the Heliocentric and Barycentric Julian Dates'
   );
-  await submissionMetadataPage.verifyJournalTitle('The Analyst');
+  await submissionMetadataPage.verifyJournalTitle(
+    'Publications of the Astronomical Society of the Pacific'
+  );
   await submissionMetadataPage.inputPublicationDate('05/02/2010');
 
   await submissionMetadataPage.clickNextToFiles();
 
   await submissionFilesPage.verifyOAManuscriptUrl(
-    'https://europepmc.org/articles/pmc6759371?pdf=render'
+    'https://iopscience.iop.org/article/10.1086/655938/pdf'
   );
   // Upload no file here
   await submissionFilesPage.clickNextToReviewNoFiles();
 
   await submissionReviewPage.verifyTitle(
-    'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
+    'Achieving Better Than 1 Minute Accuracy in the Heliocentric and Barycentric Julian Dates'
   );
-  await submissionReviewPage.verifyDoi('10.1039/c7an01256j');
+  await submissionReviewPage.verifyDoi('10.1086/655938');
   if (hasAccount) {
     await submissionReviewPage.verifyGrants('R01EY012124');
   }
@@ -189,9 +193,9 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
   await submissionThankYouPage.clickSubmissionLink();
 
   await submissionDetailsPage.verifyTitle(
-    'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
+    'Achieving Better Than 1 Minute Accuracy in the Heliocentric and Barycentric Julian Dates'
   );
-  await submissionDetailsPage.verifyDoi('10.1039/c7an01256j');
+  await submissionDetailsPage.verifyDoi('10.1086/655938');
   await submissionDetailsPage.verifySubmissionStatus(
     'This submission has been prepared on behalf of the designated submitter and is awaiting approval before being submitted.'
   );

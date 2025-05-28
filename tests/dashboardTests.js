@@ -31,11 +31,13 @@ test('can lookup DOI', async () => {
   await dashboardPage.clickSubmissions();
   await submissionsPage.startSubmission();
 
-  await submissionBasicPage.inputDoi('10.1039/c7an01256j');
+  await submissionBasicPage.inputDoi('10.1086/655938');
   await submissionBasicPage.validateTitle(
-    'Quantitative profiling of carbonyl metabolites directly in crude biological extracts using chemoselective tagging and nanoESI-FTMS'
+    'Achieving Better Than 1 Minute Accuracy in the Heliocentric and Barycentric Julian Dates'
   );
-  await submissionBasicPage.validateJournal('The Analyst');
+  await submissionBasicPage.validateJournal(
+    'Publications of the Astronomical Society of the Pacific'
+  );
   await submissionBasicPage.validateTitleAndJournalReadOnly();
 }).disablePageCaching;
 
