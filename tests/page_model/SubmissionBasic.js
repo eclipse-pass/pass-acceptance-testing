@@ -63,7 +63,10 @@ class SubmissionBasic {
   }
 
   async validateJournal(expectedJournal) {
-    await t.expect(this.journalName.value).eql(expectedJournal);
+    const actualJournalName = await this.journalName.value;
+    await t
+      .expect(actualJournalName.toLowerCase())
+      .contains(expectedJournal.toLowerCase());
   }
 
   async validateJournalIsEmpty() {

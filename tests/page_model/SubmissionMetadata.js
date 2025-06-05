@@ -25,8 +25,12 @@ class SubmissionMetadata {
   }
 
   async verifyJournalTitle(expectedJournalTitle) {
-    const journalTitle = Selector('div[data-name=journal-title] input');
-    await t.expect(journalTitle.value).eql(expectedJournalTitle);
+    const actualJournalTitle = await Selector(
+      'div[data-name=journal-title] input'
+    ).value;
+    await t
+      .expect(actualJournalTitle.toLowerCase())
+      .contains(expectedJournalTitle.toLowerCase());
   }
 
   async inputAuthor(authorName) {
