@@ -24,9 +24,9 @@ jobs:
           git config user.email "${{ github.actor }}@users.noreply.github.com"
       
       - name: Setup Node & Yarn
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v5
         with:
-          node-version: 18
+          node-version: 24
           cache: 'yarn'
 
       - name: Update project version to release version
