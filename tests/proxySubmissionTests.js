@@ -158,7 +158,7 @@ async function walkThroughSubmissionFlow(t, hasAccount) {
   await submissionMetadataPage.verifyJournalTitle(
     'Publications of the Astronomical Society of the Pacific'
   );
-  await submissionMetadataPage.inputPublicationDate('05/02/2010');
+  await submissionMetadataPage.inputPublicationDate('2010-05-02');
 
   await submissionMetadataPage.clickNextToFiles();
 

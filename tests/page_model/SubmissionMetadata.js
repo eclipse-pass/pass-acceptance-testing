@@ -50,16 +50,11 @@ class SubmissionMetadata {
     const publicationDateInput = Selector(
       'div[data-name=publicationDate] input'
     );
-    // Native <input type="date"> expects yyyy-mm-dd format.
-    // Convert mm/dd/yyyy to yyyy-mm-dd for programmatic input.
-    const [mm, dd, yyyy] = date.split('/');
-    const isoDate = `${yyyy}-${mm}-${dd}`;
     await t
       .expect(publicationDateInput.exists)
       .ok()
-      .typeText(publicationDateInput, isoDate, { replace: true, paste: true })
-      .dispatchEvent(publicationDateInput, 'input', { bubbles: true })
-      .dispatchEvent(publicationDateInput, 'change', { bubbles: true });
+      .click(publicationDateInput)
+      .typeText(publicationDateInput, date, { paste: true });
   }
 
   async clickNextToFiles() {
