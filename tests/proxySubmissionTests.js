@@ -58,7 +58,7 @@ test('can walk through a proxy submission workflow and make a submission - with 
   await t.click(searchForUsers);
 
   // Check search results
-  const searchResultsModal = Selector('.pass-modal-dialog');
+  const searchResultsModal = Selector('.ember-modal-dialog');
   await t.expect(searchResultsModal.exists).ok();
   const userHasGrantsLink = Selector('a')
     .withAttribute('data-test-found-proxy-user')
