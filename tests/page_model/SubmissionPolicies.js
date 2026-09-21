@@ -27,16 +27,16 @@ class SubmissionPolicies {
   }
 
   async verifyPolicyExists(policyTitle) {
-    const jhuRepository = Selector('h3')
-      .withAttribute('data-test-policy-title')
-      .withText(policyTitle);
+    const jhuRepository = Selector('[data-test-policy-title]').withText(
+      policyTitle
+    );
     await t.expect(jhuRepository.exists).ok();
   }
 
   async verifyPolicyNotExists(policyTitle) {
-    const jhuRepository = Selector('h3')
-      .withAttribute('data-test-policy-title')
-      .withText(policyTitle);
+    const jhuRepository = Selector('[data-test-policy-title]').withText(
+      policyTitle
+    );
     await t.expect(jhuRepository.exists).notOk();
   }
 

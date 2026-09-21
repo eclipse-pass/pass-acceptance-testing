@@ -18,7 +18,7 @@ import { currLocation, PASS_BASE_URL } from '../commonTest.js';
 
 class Dashboard {
   constructor() {
-    this.manageHeader = Selector('h2').withText(
+    this.manageHeader = Selector('.card-title').withText(
       'Manage Publication Submissions'
     );
     this.submissionsLink = Selector('.nav-link.ember-view').withText(
