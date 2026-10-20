@@ -19,7 +19,9 @@ class SubmissionDetails {
   constructor() {}
 
   async verifyTitle(exptectedTitle) {
-    const submittedHeading = Selector('h5').withText(exptectedTitle);
+    const submittedHeading = Selector(
+      '[data-test-submission-detail-title]'
+    ).withText(exptectedTitle);
     await t.expect(submittedHeading.exists).ok();
   }
 
